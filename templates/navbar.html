@@ -1,38 +1,51 @@
-<!-- Navigation bar used in all pages -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Brand Logo</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Authors</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Category
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="#">Programming</a></li>
-              <li><a class="dropdown-item" href="#">Front end</a></li>
-              <li><a class="dropdown-item" href="#">Back end</a></li>
-              <li><a class="dropdown-item" href="#">Frameworks</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Business</a></li>
-              <li><a class="dropdown-item" href="#">Health</a></li>
-              <li><a class="dropdown-item" href="#">Other</a></li>
-            </ul>
-          </li>
-        </ul>
-        <form class="d-flex">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
+    {% load static %}
+    <nav class="navbar navbar-expand-sm">
+      <div class="container">
+          <a href="{% url 'blog:blog-home' %}" class="navbar-brand logo"><span class="logospan">Tomar</span> </a>
+
+          <button class="navbar-toggler"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#navmenu">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+  
+          <div class="collapse navbar-collapse" id="navmenu">
+              <ul class="navbar-nav ms-auto ulflex">
+                  <li class="nav-item">
+                      <form action="#">
+                          <div class="searchboxcontainer">
+                              <input type="search" id="search" class="searchbox" placeholder="Search blogs...">
+                              <button type="submit" class="searchbtn">
+                                  <img src="{% static 'assets/Icon awesome-search@2x.png' %}"></img>
+                              </button>
+                          </div>
+                      </form>
+                  </li>
+                  <li class="nav-item">
+                      <a href="#">
+                          <div class="addarticlebtn">
+                              <img src="{% static 'assets/Group 95@2x.png' %}"></img>
+                          </div>
+                      </a>
+                  </li>
+                  <li class="nav-item">
+                      <ul class="ulflexinner">
+                          <li><a href="#">
+                              <img src="{% static 'assets/MDI - chat-processing-outline@2x.png' %}" class="icon1"></img>
+                          </a></li>
+                          <li><a href="#">
+                              <img src="{% static 'assets/Path - bookmark-multiple-outline@2x.png' %}" class="icon2"></img>
+                          </a></li>
+                          <li><a href="#">
+                              <img src="{% static 'assets/MDI - bell-outline@2x.png' %}" class="icon3"></img>
+                          </a></li>
+                      </ul>
+                  </li>
+                  <li class="nav-item">
+                      <a href="#"><img src="{% static 'assets/Ellipse 12@2x.png' %}" class="profileimg"></img></a>
+                  </li>
+              </ul>
+          </div>            
       </div>
-    </div> 
   </nav>
