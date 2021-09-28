@@ -4,6 +4,7 @@ from django import forms
 
 
 class SignupForm(UserCreationForm):
+    """Form used to register the user."""
 
     email = forms.EmailField()
 
