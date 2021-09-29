@@ -1,5 +1,6 @@
 from django.shortcuts import redirect, render
 from django.contrib import messages
+from django.contrib.auth import views as auth_views
 
 from .forms import SignupForm
 

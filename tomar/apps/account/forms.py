@@ -11,4 +11,4 @@ class SignupForm(UserCreationForm):
     # what is Meta class? what it does?
     class Meta:
         model = User
-        fields = ["username", "email", "password1"]
+        fields = ["username", "email", "password1", "password2"]
