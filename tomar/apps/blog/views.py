@@ -12,9 +12,14 @@ class HomePageView(generic.ListView):
         return Post.objects.all()
 
 
-def index(request):
-    """Show the home page of the website."""
-    return render(request, "blog/home.html")
+# def index(request):
+#     """Show the home page of the website."""
+#     return render(request, "blog/home.html")
+
+
+class PostDetailView(generic.DetailView):
+    model = Post
+    context_object_name = "post"
 
 
 def post_detail(request):
