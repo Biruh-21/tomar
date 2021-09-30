@@ -95,3 +95,9 @@ input[type="search"]::-webkit-search-results-decoration {
     height: 50px;
     border-radius: 50px;
 }
+
+/* Footer style */
+footer{
+    background-color: rgb(51, 50, 50);
+    color: white;
+}
