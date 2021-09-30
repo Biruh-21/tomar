@@ -1,9 +1,61 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %} Tomar | Home {% endblock %}
+{% block additional_css %}
+    <link rel="stylesheet" href="{% static 'blog/styles/main.css' %}">
+{% endblock %}
 
 {% block main %}
-    <div class="container">
-        <h1>Home page </h1>
+    {% if not user.is_authenticated %}
+    <header>
+        <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+          </div>
+          <div class="carousel-inner">
+            <div class="carousel-item active" style="background-image: url('/static/blog/images/anete-lusina-zwsHjakE_iI-unsplash.jpg')">
+              <div class="carousel-caption">
+                <div class="d-flex align-items-center justify-content-center min-vh-100">
+                    <h1 class="display-1 text-black">Read posts from other users</h1>
+                </div>
+              </div>
+            </div>
+            <div class="carousel-item" style="background-image: url('/static/blog/images/aaron-burden-y02jEX_B0O0-unsplash.jpg')">
+                <div class="carousel-caption">
+                    <div class="d-flex align-items-center justify-content-center min-vh-100">
+                        <h1 class="display-1">Share what you know by writing posts</h1>
+                    </div>
+                  </div>
+            </div>
+            <div class="carousel-item" style="background-image: url('/static/blog/images/nordwood-themes-yyMJNPgQ-X8-unsplash.jpg')">
+                <div class="carousel-caption">
+                    <div class="d-flex align-items-center justify-content-center min-vh-100">
+                        <h1 class="display-1">Connect with other users</h1>
+                    </div>
+                  </div>
+            </div>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+    </header>
+    {% else %}
+    <div class="container pt-5">
+        <h1>List of people the user is follwing</h1>
+        <hr>
     </div>
+    {% endif %}
+    <!-- list of popular blogs -->
+
+
+  </div>
 {% endblock %}
