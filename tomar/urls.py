@@ -20,9 +20,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
+    path("admin/", admin.site.urls),
     path("", include("tomar.apps.blog.urls")),
     path("accounts/", include("tomar.apps.account.urls")),
-    path("admin/", admin.site.urls),
     path(
         "accounts/password_reset/",
         auth_views.PasswordResetView.as_view(

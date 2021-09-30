@@ -46,11 +46,11 @@
                     <!-- <a href="#"><img src="{% static 'assets/Ellipse 12@2x.png' %}" class="profileimg"></img></a> -->
                     <div class="dropdown text-end">
                         <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                          <img src="{% static 'assets/Ellipse 12@2x.png' %}" alt="User" width="32" height="32" class="rounded-circle profileimg">
+                          <img src="{{ user.profile.profile_picture.url }}" alt="User" width="32" height="32" class="rounded-circle profileimg">
                         </a>
                         <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
                           <li><a class="dropdown-item" href="#">Settings</a></li>
-                          <li><a class="dropdown-item" href="#">Profile</a></li>
+                          <li><a class="dropdown-item" href="{% url 'account:profile' %}">Profile</a></li>
                           <li><hr class="dropdown-divider"></li>
                           <li><a class="dropdown-item" href="{% url 'account:logout' %}">Sign out</a></li>
                         </ul>

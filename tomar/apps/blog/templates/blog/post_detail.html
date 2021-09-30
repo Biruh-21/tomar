@@ -18,7 +18,7 @@
                     <h1 class="fw-bolder mb-1">{{ post.title }}</h1>
                     <!-- Post meta content-->
                     <div class="text-muted fst-italic mb-2">
-                        {{ post.date_posted|date:"F m, Y"}} by <a href="#">{{ post.user.username }}</a>
+                        {{ post.date_posted|date:"F m, Y"}} by <a href="{% url 'account:profile' %}">{{ post.user.username }}</a>
                     </div>
                     <!-- Post categories-->
                     <a class="badge bg-secondary text-decoration-none link-light" href="#!">{{ post.category.name }}</a>

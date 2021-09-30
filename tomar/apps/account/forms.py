@@ -2,7 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
 
-from .models import UserProfile
+from .models import Profile
 
 
 class SignupForm(UserCreationForm):
@@ -10,7 +10,6 @@ class SignupForm(UserCreationForm):
 
     email = forms.EmailField()
 
-    # what is Meta class? what it does?
     class Meta:
         model = User
         fields = ["username", "email", "password1", "password2"]
@@ -21,12 +20,12 @@ class UserUpdateForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ["username"]
+        fields = ["username", "first_name", "last_name"]
 
 
 class ProfileUpdateForm(forms.ModelForm):
     """A Form used to update profile of the user."""
 
     class Meta:
-        model = UserProfile
+        model = Profile
         fields = ["bio", "about", "profile_picture"]
