@@ -54,24 +54,26 @@
         <hr>
     </div>
     {% endif %}
-    <!-- list of popular blogs -->
+
     <div class="container">
-        <h1 class="my-4 mt-5 mb-5">Read most popular posts
-        <small></small>
-        </h1>
-        <div class="row">
+        <h1 class="my-4 mt-5 mb-5">Read most popular posts</h1>
+        {% for post in posts %}
+        <div class="row mb-5 mt-5">
             <div class="col-sm-12 col-md-6 col-lg-5">
-                <h3>Project One</h3>
+                <h3> <a href="{% url 'blog:post-detail' post.slug %}">{{ post.title }}</a></h3>
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium veniam exercitationem expedita laborum at voluptate. Labore, voluptates totam at aut nemo deserunt rem magni pariatur quos perspiciatis atque eveniet unde.</p>
-                <a href="{% url 'blog:post-detail' %}" class="btn btn-outline-primary">Continue Reading</a>
+                <a href="{% url 'blog:post-detail' post.slug %}" class="btn btn-outline-primary">Continue Reading</a>
             </div>
             <div class="col-sm-12 col-md-6 col-lg-3">
-                <a href="{% url 'blog:post-detail' %}">
+                <a href="#">
                 <img class="img-fluid rounded mb-3 mb-md-0" src="{% static 'blog/images/300x200.png' %}" alt="">
                 </a>
             </div>
+            <div>
+              <hr class="col-sm-12 col-md-12 col-lg-8 mt-5 mb-5">
+            </div>
         </div>
-    <hr>
+        {% endfor %}
 
     <!-- Pagination -->
     <ul class="pagination justify-content-center">
@@ -92,8 +94,8 @@
       </li>
       <li class="page-item">
         <a class="page-link" href="#" aria-label="Next">
-          <span aria-hidden="true">&raquo;</span>
           <span class="sr-only">Next</span>
+          <span aria-hidden="true">&raquo;</span>
         </a>
       </li>
     </ul>

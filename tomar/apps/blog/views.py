@@ -1,4 +1,15 @@
 from django.shortcuts import render
+from django.views import generic
+
+from .models import Post
+
+
+class HomePageView(generic.ListView):
+    template_name = "blog/home.html"
+    context_object_name = "posts"
+
+    def get_queryset(self):
+        return Post.objects.all()
 
 
 def index(request):

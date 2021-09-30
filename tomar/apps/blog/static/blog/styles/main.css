@@ -8,3 +8,13 @@
     -o-background-size: cover;
     background-size: cover;
   }
+
+  .post-title {
+    color: black;
+    text-decoration: none;
+  }
+  
+  .post-title:hover{
+    color: #3b5998;
+    text-decoration: underline;
+  }
