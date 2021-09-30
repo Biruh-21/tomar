@@ -22,6 +22,6 @@ class PostDetailView(generic.DetailView):
     context_object_name = "post"
 
 
-def post_detail(request):
-    """A one post view while the user is reading."""
-    return render(request, "blog/post_detail.html")
+# def post_detail(request):
+#     """A one post view while the user is reading."""
+#     return render(request, "blog/post_detail.html")
