@@ -6,7 +6,7 @@ from .models import Category, Post
 class PostAdmin(admin.ModelAdmin):
     list_display = ("title", "date_posted", "category", "user")
     list_filter = ("date_posted", "category", "user")
-    prepopulated_fields = {"slug": ("title",)}
+    prepopulated_fields = {"slug": ("title",), "summary": ("content",)}
 
 
 admin.site.register(Category)

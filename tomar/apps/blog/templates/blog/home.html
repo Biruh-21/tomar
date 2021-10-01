@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% load static %}
 
 {% block title %} Tomar | Home {% endblock %}
@@ -51,7 +51,7 @@
     {% else %}
     <div class="container pt-5">
         <h1>List of people the user is follwing</h1>
-        <hr>
+        <hr class="my-4">
     </div>
     {% endif %}
 
@@ -70,7 +70,7 @@
                 </a>
             </div>
             <div>
-              <hr class="col-sm-12 col-md-12 col-lg-8 mt-5 mb-5">
+              <hr class="my-4 col-sm-12 col-md-12 col-lg-8 mt-5 mb-5">
             </div>
         </div>
         {% endfor %}

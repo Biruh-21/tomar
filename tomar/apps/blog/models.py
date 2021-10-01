@@ -17,11 +17,15 @@ class Post(models.Model):
     """Posts written by users or admin."""
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True)  # automatically generate from title
     content = models.TextField()
+    summary = models.CharField(
+        max_length=150, blank=True, null=True
+    )  # eye caching summary of the whole content
+    image = models.ImageField(upload_to="post", blank=True, null=True)
     date_posted = models.DateTimeField(timezone.now())
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     views = models.IntegerField(default=0)
     likes = models.IntegerField(default=0)
 
@@ -30,3 +34,8 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse("blog:post-detail", kwargs={"slug": self.slug})
+
+    # # give slug from the title
+    # def save(self, *args, **kwargs):
+    #     self.slug = slugify(self.title)
+    #     return super(Post, self).save(*args, **kwargs)
