@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.views import generic
+from django.contrib.auth.models import User
 
 from .models import Post
 
@@ -31,3 +32,15 @@ class PostDetailView(generic.DetailView):
 def post_detail(request):
     """A one post view while the user is reading."""
     return render(request, "blog/post.html")
+
+
+def author(request, username):
+    """Show author's profile and his/her posts."""
+    author = get_object_or_404(User, username=username)
+    author_posts = Post.objects.filter(user__username=username)
+
+    context = {
+        "user": author,
+        "user_posts": author_posts,
+    }
+    return render(request, "blog/author.html", context)

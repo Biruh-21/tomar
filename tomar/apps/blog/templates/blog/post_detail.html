@@ -50,10 +50,10 @@
 				<!-- Begin Top Meta -->
 				<div class="row post-top-meta">
 					<div class="col-md-2">
-						<a href="#"><img class="author-thumb" src="{{ post.user.profile.profile_picture.url }}" alt="{{ post.user.username }}"></a>
+						<a href="{% url 'blog:author' post.user.username %}"><img class="author-thumb" src="{{ post.user.profile.profile_picture.url }}" alt="{{ post.user.username }}"></a>
 					</div>
 					<div class="col-md-10">
-						<a class="link-dark" href="#">{{ post.user.username }}</a><a href="#" class="btn follow">Follow</a> <br>
+						<a class="link-dark" href="{% url 'blog:author' post.user.username %}">{{ post.user.username }}</a><a href="#" class="btn follow">Follow</a> <br>
 						<span class="author-description">{{ post.user.profile.bio }}</span>
 					</div>
 				</div>
@@ -61,7 +61,7 @@
 
 				<h1 class="posttitle">{{ post.title }}</h1>
 				<span class="post-date">Oct 22 </span><span class="dot"></span><span class="post-read">3 min read</span>
-				<span class="btn btn-sm btn-secondary ml-2">{{ post.category.name }}</span>
+				<span class="btn btn-sm btn-secondary ml-2"><a href="">{{ post.category.name }}</a></span>
 			</div>
 
 			<!-- Begin Featured Image -->
@@ -195,23 +195,6 @@
 	</div>
 </div>
 <!-- End Related Posts
-================================================== -->
-
-<!-- Begin Footer
-================================================== -->
-<div class="container">
-	<div class="footer">
-		<p class="pull-left">
-			 Copyright &copy; 2017 Your Website Name
-		</p>
-		<p class="pull-right">
-			Privacy | Terms of use | Contact
-		</p>
-		<div class="clearfix">
-		</div>
-	</div>
-</div>
-<!-- End Footer
 ================================================== -->
 
 {% endblock %}

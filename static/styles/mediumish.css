@@ -104,11 +104,12 @@ section {
 	margin-top:30px;
 }
 .author-thumb {
+	border: 1px solid #00A8FF;
 	width:40px;
 	height:40px;
 	float:left;
 	margin-right:13px;
-	border-radius:100%;
+	border-radius:50%;
 }
 .post-top-meta {
 	margin-bottom:2rem;
