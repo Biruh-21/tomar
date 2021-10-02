@@ -1,0 +1,67 @@
+<!-- <nav class="navbar navbar-expand-sm">
+    <div class="container">
+        <a href="{% url 'blog:blog-home' %}" class="navbar-brand logo"><span class="logospan">Tomar</span> </a>
+
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navmenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navmenu">
+            <ul class="navbar-nav ms-auto ulflex">
+                <li class="nav-item">
+                    <form action="#">
+                        <div class="searchboxcontainer">
+                            <input type="search" id="search" class="searchbox" placeholder="Search blogs...">
+                            <button type="submit" class="searchbtn">
+                            <img src="{% static 'assets/Icon awesome-search@2x.png' %}"></img>
+                            </button>
+                        </div>
+                    </form>
+                </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a href="#">
+                    <div class="addarticlebtn"> 
+                        <img src="{% static 'assets/Group 95@2x.png' %}"></img></div>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <ul class="ulflexinner">
+                        <li><a href="#">
+                        <img src="{% static 'assets/MDI - chat-processing-outline@2x.png' %}" class="icon1"></img>
+                        </a></li>
+                        <li><a href="#">
+                        <img src="{% static 'assets/Path - bookmark-multiple-outline@2x.png' %}" class="icon2"></img>
+                        </a></li>
+                        <li><a href="#">
+                        <img src="{% static 'assets/MDI - bell-outline@2x.png' %}" class="icon3"></img>
+                        </a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="#"><img src="{% static 'assets/Ellipse 12@2x.png' %}" class="profileimg"></img></a>
+                    <div class="dropdown text-end">
+                        <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                          <img src="{{ user.profile.profile_picture.url }}" alt="User" width="32" height="32" class="profileimg rounded-circle p-1 bg-primary">
+                        </a>
+                        <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+                          <li><a class="dropdown-item" href="#">Settings</a></li>
+                          <li><a class="dropdown-item" href="{% url 'account:profile' %}">Profile</a></li>
+                          <li><hr class="dropdown-divider"></li>
+                          <li><a class="dropdown-item" href="{% url 'account:logout' %}">Sign out</a></li>
+                        </ul>
+                      </div>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="btn btn-outline-primary me-3" href="{% url 'account:login' %}"> Login</a>
+                    <a class="btn btn-primary" href="{% url 'account:signup' %}"> Sign up</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>            
+    </div>
+</nav> -->

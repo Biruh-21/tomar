@@ -1,8 +1,10 @@
-from django.shortcuts import redirect, render
-from django.contrib import messages
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import SignupForm, UserUpdateForm, ProfileUpdateForm
+from tomar.apps.blog.models import Post
 
 
 def signup(request):
@@ -25,7 +27,7 @@ def signup(request):
 
 
 @login_required
-def profile(request):
+def update_profile(request):
     """Show profile for authenticated user."""
     if request.method == "POST":
         user_form = UserUpdateForm(request.POST, instance=request.user)
@@ -46,3 +48,15 @@ def profile(request):
         "profile_form": profile_form,
     }
     return render(request, "account/profile_update.html", context)
+
+
+def profile(request, username):
+    """Show author's profile and his/her posts."""
+    author = get_object_or_404(User, username=username)
+    author_posts = Post.objects.filter(user__username=username)
+
+    context = {
+        "user": author,
+        "user_posts": author_posts,
+    }
+    return render(request, "account/profile.html", context)
