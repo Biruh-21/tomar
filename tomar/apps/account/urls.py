@@ -17,5 +17,5 @@ urlpatterns = [
         auth_views.LogoutView.as_view(next_page="blog:blog-home"),
         name="logout",
     ),
-    path("user/<str:username>/", views.profile, name="profile"),
+    path("<str:username>/", views.profile, name="profile"),
 ]

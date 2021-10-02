@@ -61,8 +61,19 @@
 				<!-- End Top Menta -->
 
 				<h1 class="posttitle">{{ post.title }}</h1>
-				<span class="post-date">Oct 22 </span><span class="dot"></span><span class="post-read">3 min read</span>
-				<span class="btn btn-sm btn-secondary ml-2"><a href="">{{ post.category.name }}</a></span>
+				<div class="row">
+					<div class="col-lg-6" style="border: 1px solid black;">
+						<span class="post-date">Oct 22 </span><span class="dot"></span><span class="post-read">3 min read</span>
+						<span class="btn btn-sm btn-secondary ml-2"><a href="">{{ post.category.name }}</a></span>
+					</div>
+	
+					{% if request.user == post.user %}
+						<div class="col-lg-6" style="border: 1px solid black;">
+							<a class="btn btn-sm btn-outline-primary" href="#">Update</a>
+							<a class="btn btn-sm btn-outline-primary" href="#">Delete</a>
+						</div>
+					{% endif %}
+				</div>
 			</div>
 
 			<!-- Begin Featured Image -->

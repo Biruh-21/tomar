@@ -52,11 +52,14 @@ def update_profile(request):
 
 def profile(request, username):
     """Show author's profile and his/her posts."""
-    author = get_object_or_404(User, username=username)
-    author_posts = Post.objects.filter(user__username=username)
+    # user = get_object_or_404(User, username=self.kwargs.get("username"))
+    # return Post.objects.filter(author=user).order_by("-date_posted")
+
+    user = get_object_or_404(User, username=username)
+    user_posts = Post.objects.filter(user=user)
 
     context = {
-        "user": author,
-        "user_posts": author_posts,
+        "user": user,
+        "user_posts": user_posts,
     }
     return render(request, "account/profile.html", context)

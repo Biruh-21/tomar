@@ -20,32 +20,32 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path("", include("tomar.apps.blog.urls")),
-    path("", include("tomar.apps.account.urls")),
     path("admin/", admin.site.urls),
+    path("", include("tomar.apps.blog.urls")),
+    path("account/", include("tomar.apps.account.urls")),
     path(
-        "accounts/password_reset/",
+        "account/password_reset/",
         auth_views.PasswordResetView.as_view(
             template_name="account/password_reset_form.html"
         ),
         name="password_reset",
     ),
     path(
-        "accounts/password_reset/done/",
+        "account/password_reset/done/",
         auth_views.PasswordResetDoneView.as_view(
             template_name="account/password_reset_done.html"
         ),
         name="password_reset_done",
     ),
     path(
-        "accounts/reset/<uidb64>/<token>/",
+        "account/reset/<uidb64>/<token>/",
         auth_views.PasswordResetConfirmView.as_view(
             template_name="account/password_reset_confirm.html"
         ),
         name="password_reset_confirm",
     ),
     path(
-        "accounts/reset/done/",
+        "account/reset/done/",
         auth_views.PasswordResetCompleteView.as_view(
             template_name="account/password_reset_complete.html"
         ),
