@@ -53,7 +53,7 @@
 									<span class="post-name"><a href="{% url 'account:profile' user.username %}">{{ user.username }}</a></span><br/>
 									<span class="post-date">22 July 2017</span><span class="dot"></span><span class="post-read">6 min read</span>
 									</span>
-									{% if request.user == post.user %}
+									{% if request.user == post.author %}
 									<span class="post-read-more">
 										<a class="btn btn-sm btn-outline-primary" href="{% url 'blog:post-update' post.slug %}">Update</a>
 										<a class="btn btn-sm btn-outline-primary" href="{% url 'blog:post-delete' post.slug %}">Delete</a>

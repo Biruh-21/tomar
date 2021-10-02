@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
+from django.views.generic import ListView
 
 from .forms import SignupForm, UserUpdateForm, ProfileUpdateForm
 from tomar.apps.blog.models import Post
@@ -38,7 +39,7 @@ def update_profile(request):
             user_form.save()
             profile_form.save()
             messages.success(request, "Your account has been updated successfully.")
-            return redirect("blog:blog-home")
+            return redirect("blog:post-list")
     else:
         user_form = UserUpdateForm(instance=request.user)
         profile_form = ProfileUpdateForm(instance=request.user.profile)
@@ -50,16 +51,26 @@ def update_profile(request):
     return render(request, "account/profile_update.html", context)
 
 
-def profile(request, username):
-    """Show author's profile and his/her posts."""
-    # user = get_object_or_404(User, username=self.kwargs.get("username"))
-    # return Post.objects.filter(author=user).order_by("-date_posted")
+# def profile(request, username):
+#     """Show author's profile and his/her posts."""
 
-    user = get_object_or_404(User, username=username)
-    user_posts = Post.objects.filter(user=user)
+#     user = get_object_or_404(User, username=username)
+#     user_posts = Post.objects.filter(user=user)
 
-    context = {
-        "user": user,
-        "user_posts": user_posts,
-    }
-    return render(request, "account/profile.html", context)
+#     context = {
+#         "user": user,
+#         "user_posts": user_posts,
+#     }
+#     return render(request, "account/profile.html", context)
+
+
+class UserPostList(ListView):
+    """Show all posts posted by the user."""
+
+    context_object_name = "user_posts"
+    template_name = "account/profile.html"
+
+    def get_queryset(self):
+        # Filtering posts by the user only
+        user = get_object_or_404(User, username=self.kwargs.get("username"))
+        return Post.objects.filter(author=user).order_by("-date_posted")

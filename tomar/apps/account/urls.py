@@ -14,8 +14,8 @@ urlpatterns = [
     ),
     path(
         "logout/",
-        auth_views.LogoutView.as_view(next_page="blog:blog-home"),
+        auth_views.LogoutView.as_view(next_page="blog:post-list"),
         name="logout",
     ),
-    path("<str:username>/", views.profile, name="profile"),
+    path("<str:username>/", views.UserPostList.as_view(), name="profile"),
 ]

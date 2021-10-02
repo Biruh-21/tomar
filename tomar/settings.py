@@ -140,8 +140,8 @@ MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Login and Logout
-# LOGOUT_REDIRECT_URL = "blog:blog-home"
-LOGIN_REDIRECT_URL = "blog:blog-home"
+# LOGOUT_REDIRECT_URL = "blog:post-list"
+LOGIN_REDIRECT_URL = "blog:post-list"
 LOGIN_URL = "account:login"
 
 # for sending emails

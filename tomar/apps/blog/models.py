@@ -17,7 +17,7 @@ class Category(models.Model):
 class Post(models.Model):
     """Posts written by users or admin."""
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True)  # automatically generate from title

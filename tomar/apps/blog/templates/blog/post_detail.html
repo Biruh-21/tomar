@@ -51,11 +51,11 @@
 				<!-- Begin Top Meta -->
 				<div class="row post-top-meta">
 					<div class="col-md-2">
-						<a href="{% url 'account:profile' post.user.username %}"><img class="author-thumb" src="{{ post.user.profile.profile_picture.url }}" alt="{{ post.user.username }}"></a>
+						<a href="{% url 'account:profile' post.author.username %}"><img class="author-thumb" src="{{ post.author.profile.profile_picture.url }}" alt="{{ post.author.username }}"></a>
 					</div>
 					<div class="col-md-10">
-						<a class="link-dark" href="{% url 'account:profile' post.user.username %}">{{ post.user.username }}</a><a href="#" class="btn follow">Follow</a> <br>
-						<span class="author-description">{{ post.user.profile.bio }}</span>
+						<a class="link-dark" href="{% url 'account:profile' post.author.username %}">{{ post.author.username }}</a><a href="#" class="btn follow">Follow</a> <br>
+						<span class="author-description">{{ post.author.profile.bio }}</span>
 					</div>
 				</div>
 				<!-- End Top Menta -->
@@ -65,7 +65,7 @@
 					<div class="col-6">
 						<span class="post-date">Oct 22 </span><span class="dot"></span><span class="post-read">3 min read</span>
 					</div>
-					{% if request.user == post.user %}
+					{% if request.user == post.author %}
 						<div class="col-6 text-right">
 							<a class="btn btn-sm btn-outline-primary" href="{% url 'blog:post-update' post.slug %}">Update</a>
 							<a class="btn btn-sm btn-outline-primary" href="{% url 'blog:post-delete' post.slug %}">Delete</a>
