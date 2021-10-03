@@ -119,7 +119,7 @@ section {
 	height:72px;
 }
 .post-top-meta.authorpage .author-thumb {
-	margin-top:40px;
+	margin-top:10px;
 }
 .post-top-meta span {
 	font-size:0.9rem;
@@ -145,9 +145,15 @@ span.post-date,span.post-read {
 }
 span.post-read-more {
 	align-items:center;
-	display:inline-block;
+	/* display:inline-block; */
 	float:right;
 	margin-top:8px;
+}
+.post-action {
+	align-items:center;
+	float:right;
+	/* display:inline-block; */
+	margin-top:8px;	
 }
 span.post-read-more a {
 	color:rgba(0,0,0,.44);
@@ -351,8 +357,9 @@ ul.tags li a:hover {
 	margin-bottom:1.2rem;
 }
 .btn.follow {
-	border-color:#00A8FF;
-	color:#00A8FF;
+	/* border-color:#00A8FF;
+	background-color:#00A8FF;
+	color: white; */
 	padding:3px 10px;
 	text-align:center;
 	border-radius:999em;
@@ -360,15 +367,14 @@ ul.tags li a:hover {
 	display:inline-block;
 }
 .btn.subscribe {
-	background-color:#00A8FF;
-	border-color:#00A8FF;
-	color:rgba(255,255,255,1);
-	fill:rgba(255,255,255,1);
 	border-radius:30px;
 	font-size:0.85rem;
 	margin-left:10px;
 	font-weight:600;
 	/* text-transform:uppercase; */
+}
+#cta {
+	color: #fff;
 }
 .post-top-meta .btn.follow {
 	margin-left:5px;

@@ -11,28 +11,31 @@
 		<div class="col-md-8 col-md-offset-2">
 			<div class="mainheading">
 				<div class="row post-top-meta authorpage">
-					<div class="col-md-10 col-xs-12">
-						<h1>{{ user.username }}</h1>
+					<div class="col-md-8 col-xs-12">
+						{% if user.first_name != "" %}
+							<h3>{{ user.get_full_name }}</h3>
+						{% else %}
+							<h3>{{ user.username }}</h3>
+						{% endif %}
+
 						<span class="author-description">{{ user.profile.bio }}</span> <br>
-						<!-- <div class="sociallinks"><a  target="_blank" href="https://www.facebook.com/wowthemesnet/"><i class="fa fa-facebook"></i></a> <span class="dot"></span> <a target="_blank" href="https://plus.google.com/s/wowthemesnet/top"><i class="fa fa-google-plus"></i></a></div> -->
-						<a href="#" class="btn follow">Follow</a>
+
+						{% if request.user.username == user.username %}
+							<a href="{% url 'account:profile-update' user.username %}" class="btn follow btn-primary">Update</a>
+						{% else %}
+							<a href="#" class="btn follow btn-primary">Follow</a>
+						{% endif %}
+						<a href="#" class="btn follow btn-outline-primary">About</a>
 					</div>
-					<div class="col-md-2 col-xs-12">
-						<img class="author-thumb" src="{{ user.profile.profile_picture.url }}" alt="{{ user.username }}">
+					<div class="col-md-4 col-xs-12">
+						<p class="text-center">
+							<img class="author-thumb" src="{{ user.profile.profile_picture.url }}" alt="{{ user.username }}">
+						</p>
+						<p class="text-small text-center text-primary">
+							<span><a href="#">84k Followers</a></span><span class="dot"></span><span><a href="#">143 Following</a></span>
+						</p>
 					</div>
 				</div>
-				{% if user_form.messages %}
-				<div class="alert alert-danger alert-dismissible" role="alert">
-					<div id="form_errors">
-						{% for key, value in user_form.errors.items %}
-							<strong>{{ value }}</strong>
-						{% endfor %}
-					</div>
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				{% endif %}
 			</div>
 		</div>
 	</div>
@@ -66,12 +69,12 @@
 									<span class="post-date">22 July 2017</span><span class="dot"></span><span class="post-read">6 min read</span>
 									</span>
 									{% if request.user == post.author %}
-									<span class="post-read-more">
+									<span class="post-action">
 										<a class="btn btn-sm btn-outline-primary" href="{% url 'blog:post-update' post.slug %}">Update</a>
 										<a class="btn btn-sm btn-outline-primary" href="{% url 'blog:post-delete' post.slug %}">Delete</a>
 									</span>
 									{% else %}
-										<span class="post-read-more"><a href="post.html" title="Read Story"><svg class="svgIcon-use" width="25" height="25" viewbox="0 0 25 25"><path d="M19 6c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v14.66h.012c.01.103.045.204.12.285a.5.5 0 0 0 .706.03L12.5 16.85l5.662 4.126a.508.508 0 0 0 .708-.03.5.5 0 0 0 .118-.285H19V6zm-6.838 9.97L7 19.636V6c0-.55.45-1 1-1h9c.55 0 1 .45 1 1v13.637l-5.162-3.668a.49.49 0 0 0-.676 0z" fill-rule="evenodd"></path></svg></a></span>
+										<span class="post-read-more"><a href="#" title="Read Story"><svg class="svgIcon-use" width="25" height="25" viewbox="0 0 25 25"><path d="M19 6c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v14.66h.012c.01.103.045.204.12.285a.5.5 0 0 0 .706.03L12.5 16.85l5.662 4.126a.508.508 0 0 0 .708-.03.5.5 0 0 0 .118-.285H19V6zm-6.838 9.97L7 19.636V6c0-.55.45-1 1-1h9c.55 0 1 .45 1 1v13.637l-5.162-3.668a.49.49 0 0 0-.676 0z" fill-rule="evenodd"></path></svg></a></span>
 									{% endif %}
 								</div>
 							</div>
