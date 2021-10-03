@@ -20,9 +20,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
     path("", include("tomar.apps.blog.urls")),
     path("account/", include("tomar.apps.account.urls")),
+    path("ckeditor/", include("ckeditor_uploader.urls")),
     path(
         "account/password_reset/",
         auth_views.PasswordResetView.as_view(
@@ -51,6 +51,7 @@ urlpatterns = [
         ),
         name="password_reset_complete",
     ),
+    path("admin/", admin.site.urls),
 ]
 
 if settings.DEBUG:

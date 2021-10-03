@@ -6,19 +6,27 @@
 
 {% block page_css %}
   <link rel="stylesheet" href="{% static 'account/styles/main.css' %}" />
+  <style>
+    body {
+      background: #ebebeb;
+    }
+  </style>
 {% endblock %} 
 
 {% block main %}
 <div class="container">
   <div class="row">
-    <div class="col-sm-12 col-md-12 col-lg-8 mx-auto">
+    <div class="col-sm-12 col-md-10 col-lg-6 mx-auto">
       <div class="card border-0 shadow rounded-3 my-5">
         <div class="card-body p-4 p-sm-5">
-          <h5 class="card-title text-center mb-5 fw-light fs-5">Are you sure you want to delete "{{post.title}}"?</h5>
+          <h5 class="card-title text-center mb-5 fw-light fs-5">Delete Post</h5>
+          <hr class="my-4" />
+          <p class="mb-5">Are you sure you want to delete this post: <strong>"{{ post.title }}"</strong>?</p>
+          <br>
           <form method="POST"> {% csrf_token %} 
             <div class="d-grid">
               <button class="btn btn-danger" type="submit">Yes, Delete </button>
-              <a class="btn btn-outline-secondary" href="{% url 'blog:post-detail' post.slug %}">Cancel </a>
+              <a class="btn btn-outline-primary" href="{% url 'blog:post-detail' post.slug %}">Cancel </a>
             </div>
           </form>
         </div>
@@ -26,8 +34,4 @@
     </div>
   </div>
 </div>
-{% endblock %}
-
-{% block footer %}
-  {% include "footer.html" %}
 {% endblock %}

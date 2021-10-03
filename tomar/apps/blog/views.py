@@ -39,7 +39,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     """Display post creation form and handle the process."""
 
     model = Post
-    fields = ["category", "title", "content", "summary", "image"]
+    fields = ["category", "title", "content", "summary"]
     template_name = "blog/post_create_form.html"
 
     def form_valid(self, form):
@@ -52,7 +52,7 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     """Display post update form and handle the process."""
 
     model = Post
-    fields = ["category", "title", "content", "summary", "image"]
+    fields = ["category", "title", "content", "summary"]
     template_name = "blog/post_update_form.html"
 
     def form_valid(self, form):

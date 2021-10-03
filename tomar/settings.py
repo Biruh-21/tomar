@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     # third-party apps
     "crispy_forms",
     "crispy_bootstrap5",
+    "ckeditor",
+    "ckeditor_uploader",
     # local apps
     "tomar.apps.account",
     "tomar.apps.blog",
@@ -156,3 +158,6 @@ EMAIL_HOST_PASSWORD = "fsbqnwjddfigmqzq"
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+# ckeditor
+CKEDITOR_UPLOAD_PATH = "uploads/"
