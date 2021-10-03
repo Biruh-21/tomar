@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.urls import reverse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import ListView
 
@@ -28,7 +29,7 @@ def signup(request):
 
 
 @login_required
-def update_profile(request):
+def update_profile(request, username):
     """Show profile for authenticated user."""
     if request.method == "POST":
         user_form = UserUpdateForm(request.POST, instance=request.user)
@@ -39,7 +40,7 @@ def update_profile(request):
             user_form.save()
             profile_form.save()
             messages.success(request, "Your account has been updated successfully.")
-            return redirect("blog:post-list")
+            return redirect(to=reverse("account:profile", args=(username,)))
     else:
         user_form = UserUpdateForm(instance=request.user)
         profile_form = ProfileUpdateForm(instance=request.user.profile)
@@ -48,7 +49,7 @@ def update_profile(request):
         "user_form": user_form,
         "profile_form": profile_form,
     }
-    return render(request, "account/profile_update.html", context)
+    return render(request, "account/profile_update_form.html", context)
 
 
 # def profile(request, username):
@@ -64,13 +65,18 @@ def update_profile(request):
 #     return render(request, "account/profile.html", context)
 
 
-class UserPostList(ListView):
-    """Show all posts posted by the user."""
+class UserPostListView(ListView):
+    """Show profile of the user and all posts posted by the user."""
 
     context_object_name = "user_posts"
     template_name = "account/profile.html"
 
     def get_queryset(self):
         # Filtering posts by the user only
-        user = get_object_or_404(User, username=self.kwargs.get("username"))
-        return Post.objects.filter(author=user).order_by("-date_posted")
+        self.user = get_object_or_404(User, username=self.kwargs.get("username"))
+        return Post.objects.filter(author=self.user).order_by("-date_posted")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["user"] = self.user
+        return context
