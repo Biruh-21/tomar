@@ -80,3 +80,9 @@ class UserPostListView(ListView):
         context = super().get_context_data(**kwargs)
         context["user"] = self.user
         return context
+
+
+def about_user(request, username):
+    """Show about of the user."""
+    user = User.objects.get(username=username)
+    return render(request, "account/about_user.html", {"user": user})
