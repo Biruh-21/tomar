@@ -156,7 +156,6 @@ EMAIL_HOST_PASSWORD = "fsbqnwjddfigmqzq"
 
 # Crispy forms
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
-
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 # ckeditor

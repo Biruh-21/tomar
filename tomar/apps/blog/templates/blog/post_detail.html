@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
+{% load post_read_time %}
+
 {% block title %} {{ post.title }} {% endblock %}
 
 {% block main %}
@@ -51,7 +53,7 @@
 				<h1 class="posttitle">{{ post.title }}</h1>
 				<div class="row">
 					<div class="col-6">
-						<span class="post-date">Oct 22 </span><span class="dot"></span><span class="post-read">3 min read</span>
+						<span class="post-date">{{post.date_posted|date:"F d, Y" }}</span><span class="dot"></span><span class="post-read">{{ post.content|readtime }}</span>
 					</div>
 					{% if request.user == post.author %}
 						<div class="col-6 text-right">
