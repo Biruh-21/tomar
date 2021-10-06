@@ -37,11 +37,11 @@
 				<div class="col-md-7">
 					<div class="card-block">
 						<h2 class="card-title"><a href="{% url 'blog:post-detail' post.slug %}">{{ post.title }}</a></h2>
-						<h4 class="card-text">{{ post.summary }}</h4>
+						<h4 class="card-text">{{ post.content|truncatechars_html:120|safe }}</h4>
 						<div class="metafooter">
 							<div class="wrapfooter">
 								<span class="meta-footer-thumb">
-								<a href="{% url 'account:profile' post.author.username %}"><img class="author-thumb" src="{% static 'assets/Ellipse 12@2x.png' %}" alt="Sal"></a>
+								<a href="{% url 'account:profile' post.author.username %}"><img class="author-thumb" src="{{ post.author.profile.profile_picture.url }}" alt="{{ post.author.username }}"></a>
 								</span>
 								<span class="author-meta">
 								<span class="post-name"><a href="{% url 'account:profile' post.author.username %}">{{ post.author.username }}</a></span><br/>

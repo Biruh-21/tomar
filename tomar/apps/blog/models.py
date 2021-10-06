@@ -24,9 +24,6 @@ class Post(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True)  # automatically generate from title
     content = RichTextUploadingField()
-    summary = models.CharField(
-        max_length=150, blank=True, null=True
-    )  # eye caching summary of the whole content
     image = models.ImageField(
         upload_to="post", blank=True
     )  # have a default image incase the user don't provide and image

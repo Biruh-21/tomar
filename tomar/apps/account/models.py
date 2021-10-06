@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.db import models
 from django.db.models.signals import post_save
+from PIL import Image
 
 
 class Profile(models.Model):
@@ -16,6 +17,14 @@ class Profile(models.Model):
 
     def __str__(self):
         return f"{self.user.username} profile"
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+        img = Image.open(self.profile_picture.path)
+        if img.width > 300 or img.height > 300:
+            img.thumbnail(size=(300, 300))
+            img.save(self.profile_picture.path)  # replace the larger image
 
     @receiver(post_save, sender=User)
     def create_or_save_profile(sender, instance, created, **kwargs):

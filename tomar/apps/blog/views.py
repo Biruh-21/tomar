@@ -19,7 +19,7 @@ from .models import Post
 
 def index(request):
     """Show the home page of the website."""
-    featured_posts = Post.objects.all()[:4]
+    featured_posts = Post.objects.all().order_by("-date_posted")[:4]
     all_posts = Post.objects.all()[5:]
     context = {
         "featured_posts": featured_posts,
@@ -39,7 +39,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     """Display post creation form and handle the process."""
 
     model = Post
-    fields = ["category", "title", "content", "summary"]
+    fields = ["category", "title", "content", "image"]
     template_name = "blog/post_create_form.html"
 
     def form_valid(self, form):
@@ -52,7 +52,7 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     """Display post update form and handle the process."""
 
     model = Post
-    fields = ["category", "title", "content", "summary"]
+    fields = ["category", "title", "content", "image"]
     template_name = "blog/post_update_form.html"
 
     def form_valid(self, form):
