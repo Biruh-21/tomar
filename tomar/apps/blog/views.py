@@ -20,7 +20,7 @@ from .models import Post
 def index(request):
     """Show the home page of the website."""
     featured_posts = Post.objects.all().order_by("-date_posted")[:4]
-    all_posts = Post.objects.all()[5:]
+    all_posts = Post.objects.all()[4:]
     context = {
         "featured_posts": featured_posts,
         "all_posts": all_posts,

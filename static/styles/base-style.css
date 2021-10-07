@@ -166,7 +166,7 @@ span.post-name a,span.post-read-more a:hover {
 	margin-left:3px;
 	margin-right:3px;
 }
-.mediumnavigation .form-control {
+/* .mediumnavigation .form-control {
 	font-size:0.8rem;
 	border-radius:30px;
 	overflow:hidden;
@@ -184,7 +184,7 @@ span.post-name a,span.post-read-more a:hover {
 .mediumnavigation .form-inline .btn:hover,.mediumnavigation .form-inline .btn:active {
 	background:transparent;
 	color:green;
-}
+} */
 .mediumnavigation .navbar-brand {
 	font-weight:500;
 }
@@ -390,7 +390,7 @@ ul.tags li a:hover {
 	padding:14px 0;
 	z-index:1;
 }
-.form-control::-webkit-input-placeholder {
+/* .form-control::-webkit-input-placeholder {
 	color: rgba(0,0,0,.5);
 }
 .form-control:-moz-placeholder {
@@ -404,7 +404,7 @@ ul.tags li a:hover {
 }
 .form-control::-ms-input-placeholder {
 	color: rgba(0,0,0,.5);
-}
+} */
 .authorpage h1 {
 	font-weight:700;
 	font-size:30px;
