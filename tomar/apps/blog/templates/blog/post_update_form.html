@@ -24,8 +24,9 @@
             {{ form.media }}
             {{ form|crispy }}
   
-            <div class="d-grid">
+            <div class="d-grid mt-5">
               <button class="btn btn-primary" type="submit">Update Post </button>
+              <a class="btn btn-secondary" href="{% url 'blog:post-detail' post.slug %}">Cancel </a>
             </div>
           </form>
         </div>

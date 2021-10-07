@@ -69,7 +69,7 @@ class UserPostListView(ListView):
     """Show profile of the user and all posts posted by the user."""
 
     context_object_name = "user_posts"
-    template_name = "account/profile.html"
+    template_name = "account/user_profile.html"
 
     def get_queryset(self):
         # Filtering posts by the user only

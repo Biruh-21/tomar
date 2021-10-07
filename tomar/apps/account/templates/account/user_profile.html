@@ -2,7 +2,7 @@
 {% load static %}
 {% load post_read_time %}
 
-{% block title %} Tomar Author - {{ user.username }} {% endblock %}
+{% block title %} Tomar Author - {{ user.username|capfirst }} {% endblock %}
 
 {% block main %}
 <!-- Begin Top Author Page
@@ -14,7 +14,7 @@
 			<div class="mainheading">
 				<div class="row post-top-meta authorpage">
 					<div class="col-md-8 col-xs-12">
-						{% if user.first_name != "" %}
+						{% if user.first_name %}
 							<h3>{{ user.get_full_name }}</h3>
 						{% else %}
 							<h3>{{ user.username }}</h3>
