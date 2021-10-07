@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models.base import ModelBase
 from django.utils.text import slugify
 from django.utils.crypto import get_random_string
 from django.urls import reverse
@@ -30,6 +31,7 @@ class Post(models.Model):
     date_posted = models.DateTimeField(auto_now=True)
     views = models.IntegerField(default=0)
     likes = models.IntegerField(default=0)
+    bookmark = models.ManyToManyField(User, related_name="bookmark", blank=True)
 
     def __str__(self):
         return self.title
@@ -40,7 +42,7 @@ class Post(models.Model):
     # give slug from the title
     def save(self, *args, **kwargs):
         self.slug = self.unique_slug_generator(self.title)
-        return super(Post, self).save(*args, **kwargs)
+        return super().save(*args, **kwargs)
 
     def unique_slug_generator(self, title):
         """Generate unique slug from the post title."""

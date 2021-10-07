@@ -42,6 +42,15 @@
 					</a>
 					</li>
 				</ul>
+				<p>
+					<a href="{% url 'blog:bookmark' post.slug %}">
+						{% if is_bookmarked %}
+						<i class="fas fa-bookmark fa-lg"></i> 
+						{% else %}
+						<i class="far fa-bookmark fa-lg"></i>
+						{% endif %}
+					</a>
+				</p>
 			</div>
 		</div>
 		<!-- End Fixed Left Share -->

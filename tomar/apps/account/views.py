@@ -82,6 +82,18 @@ class UserPostListView(ListView):
         return context
 
 
+class SavedPostListView(ListView):
+    """Show saved posts by the user."""
+
+    model = User
+    context_object_name = "saved_posts"
+    template_name = "blog/saved_posts.html"
+
+    def get_queryset(self):
+        user = get_object_or_404(User, username=self.kwargs.get("username"))
+        return user.bookmark.all()
+
+
 def about_user(request, username):
     """Show about of the user."""
     user = User.objects.get(username=username)

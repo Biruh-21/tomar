@@ -1,7 +1,9 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.shortcuts import render
-from django.urls import reverse_lazy
+from django.http.response import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render
+from django.urls import reverse_lazy, reverse
 from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
@@ -24,6 +26,7 @@ def index(request):
     context = {
         "featured_posts": featured_posts,
         "all_posts": all_posts,
+        "is_bookmarked": False,
     }
     return render(request, "blog/index.html", context)
 
@@ -33,6 +36,15 @@ class PostDetailView(DetailView):
 
     model = Post
     context_object_name = "post"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        self.post = get_object_or_404(Post, slug=self.kwargs.get("slug"))
+        self.is_bookmarked = False
+        if self.post.bookmark.filter(id=self.request.user.pk).exists():
+            self.is_bookmarked = True
+        context["is_bookmarked"] = self.is_bookmarked
+        return context
 
 
 class PostCreateView(LoginRequiredMixin, CreateView):
@@ -78,3 +90,14 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def test_func(self):
         # check that the person trying to delete the post is owner of the post
         return self.get_object().author == self.request.user
+
+
+@login_required
+def bookmark_post(request, slug):
+    """Bookmark the post for later reading."""
+    post = get_object_or_404(Post, slug=slug)
+    if post.bookmark.filter(id=request.user.pk).exists():
+        post.bookmark.remove(request.user)
+    else:
+        post.bookmark.add(request.user)
+    return HttpResponseRedirect(reverse("blog:post-list"))

@@ -39,7 +39,7 @@
                         {{ request.user.username }}
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                        <li><a class="dropdown-item" href="{% url 'account:saved' request.user.username %}">Saved</a></li>
                         <li><a class="dropdown-item" href="{% url 'account:profile' request.user.username  %}">Profile</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="{% url 'account:logout' %}">Sign out</a></li>
