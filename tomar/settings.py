@@ -50,8 +50,8 @@ INSTALLED_APPS = [
     "ckeditor",
     "ckeditor_uploader",
     # local apps
-    "account",
-    "blog",
+    "account.apps.AccountConfig",
+    "blog.apps.BlogConfig",
 ]
 
 MIDDLEWARE = [
@@ -115,6 +115,8 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
+
+AUTH_USER_MODEL = "account.Account"
 
 
 # Internationalization

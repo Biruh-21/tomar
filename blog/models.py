@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.base import ModelBase
@@ -20,7 +21,7 @@ class Category(models.Model):
 class Post(models.Model):
     """Posts written by users or admin."""
 
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True)  # automatically generate from title
@@ -31,7 +32,9 @@ class Post(models.Model):
     date_posted = models.DateTimeField(auto_now=True)
     views = models.IntegerField(default=0)
     likes = models.IntegerField(default=0)
-    bookmark = models.ManyToManyField(User, related_name="bookmark", blank=True)
+    bookmark = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, related_name="bookmark", blank=True
+    )
 
     def __str__(self):
         return self.title
