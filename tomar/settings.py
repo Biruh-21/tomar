@@ -50,8 +50,8 @@ INSTALLED_APPS = [
     "ckeditor",
     "ckeditor_uploader",
     # local apps
-    "tomar.apps.account",
-    "tomar.apps.blog",
+    "account",
+    "blog",
 ]
 
 MIDDLEWARE = [

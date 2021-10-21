@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import ListView
 
 from .forms import SignupForm, UserUpdateForm, ProfileUpdateForm
-from tomar.apps.blog.models import Post
+from blog.models import Post
 
 
 def signup(request):
