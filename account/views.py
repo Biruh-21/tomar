@@ -1,12 +1,14 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.conf import settings
 from django.urls import reverse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import ListView
 
 from .forms import SignupForm, UserUpdateForm, ProfileUpdateForm
 from blog.models import Post
+from account.models import Account
 
 
 def signup(request):
@@ -29,7 +31,7 @@ def signup(request):
 
 
 @login_required
-def update_profile(request, username):
+def update_profile(request, display_name):
     """Show profile for authenticated user."""
     if request.method == "POST":
         user_form = UserUpdateForm(request.POST, instance=request.user)
@@ -40,7 +42,7 @@ def update_profile(request, username):
             user_form.save()
             profile_form.save()
             messages.success(request, "Your account has been updated successfully.")
-            return redirect(to=reverse("account:profile", args=(username,)))
+            return redirect(to=reverse("account:profile", args=(display_name,)))
     else:
         user_form = UserUpdateForm(instance=request.user)
         profile_form = ProfileUpdateForm(instance=request.user.profile)
@@ -73,7 +75,9 @@ class UserPostListView(ListView):
 
     def get_queryset(self):
         # Filtering posts by the user only
-        self.user = get_object_or_404(User, username=self.kwargs.get("username"))
+        self.user = get_object_or_404(
+            Account, display_name=self.kwargs.get("display_name")
+        )
         return Post.objects.filter(author=self.user).order_by("-date_posted")
 
     def get_context_data(self, **kwargs):
@@ -85,16 +89,16 @@ class UserPostListView(ListView):
 class SavedPostListView(ListView):
     """Show saved posts by the user."""
 
-    model = User
+    model = settings.AUTH_USER_MODEL
     context_object_name = "saved_posts"
     template_name = "blog/saved_posts.html"
 
     def get_queryset(self):
-        user = get_object_or_404(User, username=self.kwargs.get("username"))
+        user = get_object_or_404(Account, display_name=self.kwargs.get("display_name"))
         return user.bookmark.all()
 
 
-def about_user(request, username):
+def about_user(request, display_name):
     """Show about of the user."""
-    user = User.objects.get(username=username)
+    user = Account.objects.get(display_name=display_name)
     return render(request, "account/about_user.html", {"user": user})

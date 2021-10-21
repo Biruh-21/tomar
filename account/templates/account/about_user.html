@@ -21,7 +21,7 @@
                                     {% if user.get_full_name %}
                                     <h4>{{ user.get_full_name }}</h4>
                                     {% else %}
-                                    <h4>{{ user.username }}</h4>
+                                    <h4>{{ user.display_name }}</h4>
                                     {% endif %}
                                     <p class="text-secondary mb-1">{{ user.profile.bio }}</p>
                                     <p class="text-small text-center text-primary">

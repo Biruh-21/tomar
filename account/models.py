@@ -56,7 +56,14 @@ class Account(AbstractBaseUser, PermissionsMixin):
     Email and password are required. Other fields are optional.
     """
 
-    email = models.EmailField("email", max_length=200, unique=True)
+    email = models.CharField(
+        "email",
+        max_length=150,
+        unique=True,
+        error_messages={
+            "unique": "An account with this email address already exists.",
+        },
+    )
     first_name = models.CharField("first name", max_length=40, blank=True)
     last_name = models.CharField("last name", max_length=40, blank=True)
     display_name = models.CharField(
@@ -80,7 +87,7 @@ class Account(AbstractBaseUser, PermissionsMixin):
 
     EMAIL_FIELD = "email"
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ["display_name"]
 
     class Meta:
         verbose_name = "account"

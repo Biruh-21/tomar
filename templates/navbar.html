@@ -36,11 +36,11 @@
                 {% else %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {{ request.user.username }}
+                        {{ request.user.display_name }}
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <li><a class="dropdown-item" href="{% url 'account:saved' request.user.username %}">Saved</a></li>
-                        <li><a class="dropdown-item" href="{% url 'account:profile' request.user.username  %}">Profile</a></li>
+                        <li><a class="dropdown-item" href="{% url 'account:saved' request.user.display_name %}">Saved</a></li>
+                        <li><a class="dropdown-item" href="{% url 'account:profile' request.user.display_name %}">Profile</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="{% url 'account:logout' %}">Sign out</a></li>
                     </ul>

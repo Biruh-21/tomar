@@ -2,7 +2,7 @@
 {% load static %}
 {% load post_read_time %}
 
-{% block title %} Tomar Author - {{ user.username|capfirst }} {% endblock %}
+{% block title %} Tomar Author - {{ user.display_name|capfirst }} {% endblock %}
 
 {% block main %}
 <!-- Begin Top Author Page
@@ -17,21 +17,21 @@
 						{% if user.first_name %}
 							<h3>{{ user.get_full_name }}</h3>
 						{% else %}
-							<h3>{{ user.username }}</h3>
+							<h3>{{ user.display_name }}</h3>
 						{% endif %}
 
 						<span class="author-description">{{ user.profile.bio }}</span> <br>
 
-						{% if request.user.username == user.username %}
-							<a href="{% url 'account:profile-update' user.username %}" class="btn follow btn-primary">Update</a>
+						{% if request.user.display_name == user.display_name %}
+							<a href="{% url 'account:profile-update' user.display_name %}" class="btn follow btn-primary">Update</a>
 						{% else %}
 							<a href="#" class="btn follow btn-primary">Follow</a>
 						{% endif %}
-						<a href="{% url 'account:about-user' user.username %}" class="btn follow btn-outline-primary">About</a>
+						<a href="{% url 'account:about-user' user.display_name %}" class="btn follow btn-outline-primary">About</a>
 					</div>
 					<div class="col-md-4 col-xs-12">
 						<p class="text-center">
-							<img class="author-thumb" src="{{ user.profile.profile_picture.url }}" alt="{{ user.username }}">
+							<img class="author-thumb" src="{{ user.profile.profile_picture.url }}" alt="{{ user.display_name }}">
 						</p>
 						<p class="text-small text-center text-primary">
 							<span><a href="#">84k Followers</a></span><span class="dot"></span><span><a href="#">143 Following</a></span>
@@ -64,10 +64,10 @@
 					<div class="metafooter">
 						<div class="wrapfooter">
 							<span class="meta-footer-thumb" >
-							<a href="{% url 'account:profile' user.username %}"><img class="author-thumb" src="{{ user.profile.profile_picture.url }}" alt="{{ user.username }}"></a>
+							<a href="{% url 'account:profile' user.display_name %}"><img class="author-thumb" src="{{ user.profile.profile_picture.url }}" alt="{{ user.display_name }}"></a>
 							</span>
 							<span class="author-meta">
-							<span class="post-name"><a href="{% url 'account:profile' user.username %}">{{ user.username }}</a></span><br/>
+							<span class="post-name"><a href="{% url 'account:profile' user.display_name %}">{{ user.display_name }}</a></span><br/>
 							<span class="post-date">{{post.date_posted|date:"F d, Y" }}</span><span class="dot"></span><span class="post-read">{{ post.content|readtime }}</span>
 							</span>
 							{% if request.user == post.author %}
