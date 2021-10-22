@@ -86,7 +86,9 @@ class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     bio = models.CharField(max_length=150, blank=True)
     about = models.TextField(blank=True)
-    avator = models.ImageField(default="default-avator.jpg", upload_to="profile_pics")
+    avator = models.ImageField(
+        default="default-avator.jpg", upload_to="profile_pics/%Y/%m/%d"
+    )
 
     def __str__(self):
         return f"{self.user.display_name}'s profile"

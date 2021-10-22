@@ -31,7 +31,7 @@ class Post(models.Model):
     slug = models.SlugField(unique=True)  # automatically generate from title
     content = RichTextUploadingField()
     image = models.ImageField(
-        upload_to="post", blank=True
+        upload_to="posts/%Y/%m/%d", blank=True
     )  # have a default image incase the user don't provide and image
     date_posted = models.DateTimeField(auto_now=True)
     views = models.IntegerField(default=0)
