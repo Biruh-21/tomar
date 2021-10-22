@@ -69,7 +69,7 @@ class Account(AbstractUser):
         verbose_name_plural = "accounts"
 
     def __str__(self):
-        return self.email
+        return self.display_name
 
     def save(self, *args, **kwargs):
         self.display_name = self.get_display_name()

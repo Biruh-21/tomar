@@ -97,20 +97,20 @@
 			<!-- Begin Top Meta -->
 			<div class="row post-top-meta">
 				<div class="col-md-2">
-					<a href="{% url 'account:profile' post.author.username %}">
-						<img class="author-thumb" src="{{ post.author.profile.profile_picture.url }}" alt="{{ post.author.username }}">
+					<a href="{% url 'accounts:profile' post.author.display_name %}">
+						<img class="author-thumb" src="{{ post.author.profile.avator.url }}" alt="{{ post.author.display_name }}">
 					</a>
 				</div>
 				<div class="col-md-10">
 					{% if post.author.first_name != "" %}
-						<a class="link-dark" href="{% url 'account:profile' post.author.username %}">{{ post.author.get_full_name }}</a> <br>
+						<a class="link-dark" href="{% url 'accounts:profile' post.author.display_name %}">{{ post.author.get_full_name }}</a> <br>
 					{% else %}
-						<a class="link-dark" href="{% url 'account:profile' post.author.username %}">{{ post.author.username }}</a> <br>
+						<a class="link-dark" href="{% url 'accounts:profile' post.author.display_name %}">{{ post.author.display_name }}</a> <br>
 					{% endif %}
 					<span class="author-description">{{ post.author.profile.bio }}</span> <br>
 					<div>
 						<a href="#" class="btn follow btn-primary">Follow</a>
-						<a href="{% url 'account:about-user' post.author.username %}" class="btn follow btn-outline-primary">About</a>
+						<a href="{% url 'accounts:about-user' post.author.display_name %}" class="btn follow btn-outline-primary">About</a>
 					</div>
 				</div>
 			</div>

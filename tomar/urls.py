@@ -18,38 +18,40 @@ from django.contrib.auth import views as auth_views
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.urls import reverse_lazy
 
 urlpatterns = [
     path("", include("blog.urls")),
-    path("ckeditor/", include("ckeditor_uploader.urls")),
+    path("accounts/", include("accounts.urls")),
     path(
-        "account/password_reset/",
+        "accounts/password_reset/",
         auth_views.PasswordResetView.as_view(
-            template_name="account/password_reset_form.html"
+            template_name="accounts/password_reset_form.html",
         ),
         name="password_reset",
     ),
     path(
-        "account/password_reset/done/",
+        "accounts/password_reset/done/",
         auth_views.PasswordResetDoneView.as_view(
-            template_name="account/password_reset_done.html"
+            template_name="accounts/password_reset_done.html"
         ),
         name="password_reset_done",
     ),
     path(
-        "account/reset/<uidb64>/<token>/",
+        "accounts/reset/<uidb64>/<token>/",
         auth_views.PasswordResetConfirmView.as_view(
-            template_name="account/password_reset_confirm.html"
+            template_name="accounts/password_reset_confirm.html",
         ),
         name="password_reset_confirm",
     ),
     path(
-        "account/reset/complete/",
+        "accounts/reset/done/",
         auth_views.PasswordResetCompleteView.as_view(
-            template_name="account/password_reset_complete.html"
+            template_name="accounts/password_reset_complete.html"
         ),
         name="password_reset_complete",
     ),
+    path("ckeditor/", include("ckeditor_uploader.urls")),
     path("admin/", admin.site.urls),
 ]
 

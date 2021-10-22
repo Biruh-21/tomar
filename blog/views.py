@@ -85,7 +85,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         # After deleting the post, redirect to user's profile page
         post_slug = self.kwargs["slug"]
         author = Post.objects.get(slug=post_slug).author
-        return reverse_lazy("account:profile", args=(author.username,))
+        return reverse_lazy("accounts:profile", args=(author.display_name,))
 
     def test_func(self):
         # check that the person trying to delete the post is owner of the post

@@ -28,21 +28,21 @@
 
                 {% if not request.user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'account:login' %}">Sign in</a>
+                    <a class="nav-link" href="{% url 'accounts:login' %}">Sign in</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link btn subscribe btn-primary" id="cta" href="{% url 'account:signup' %}">Get Started</a>
+                    <a class="nav-link btn subscribe btn-primary" id="cta" href="{% url 'accounts:signup' %}">Get Started</a>
                 </li>
                 {% else %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {{ request.user.display_name }}
+                        <img class="rounded-circle" src="{{ request.user.profile.avator.url }}" alt="{{ request.user.display_name }}" width="30px" height="30px" >
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <li><a class="dropdown-item" href="{% url 'account:saved' request.user.display_name %}">Saved</a></li>
-                        <li><a class="dropdown-item" href="{% url 'account:profile' request.user.display_name %}">Profile</a></li>
+                        <li><a class="dropdown-item" href="{% url 'accounts:saved' request.user.display_name %}">Saved</a></li>
+                        <li><a class="dropdown-item" href="{% url 'accounts:profile' request.user.display_name %}">Profile</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="{% url 'account:logout' %}">Sign out</a></li>
+                        <li><a class="dropdown-item" href="{% url 'accounts:logout' %}">Sign out</a></li>
                     </ul>
                   </li>
                 {% endif %}

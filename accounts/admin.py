@@ -3,10 +3,6 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
 from accounts.models import Account, Profile
-from accounts.forms import CustomUserChangeForm, CustomUserCreationForm
-
-# # unregister the default model admin
-# admin.site.unregister(User)
 
 
 class ProfileInline(admin.TabularInline):
