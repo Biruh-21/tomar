@@ -8,6 +8,18 @@
 <!-- Begin Site Title
 ================================================== -->
 <div class="container">
+
+	{% if messages %}
+		{% for message in messages %}
+			<div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert" id="msg">
+			{{ message }}
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			</div>
+		{% endfor %}
+	{% endif %}
+
 	<div class="mainheading">
 		<h1 class="sitetitle">Tomar</h1>
 		<p class="lead">
@@ -44,7 +56,17 @@
 								<a href="{% url 'accounts:profile' post.author.display_name %}"><img class="author-thumb" src="{{ post.author.profile.avator.url }}" alt="{{ post.author.display_name }}"></a>
 								</span>
 								<span class="author-meta">
-								<span class="post-name"><a href="{% url 'accounts:profile' post.author.display_name %}">{{ post.author.display_name }}</a></span><br/>
+								<span class="post-name">
+								<a href="{% url 'accounts:profile' post.author.display_name %}">
+									{% if post.author.first_name  and post.author.last_name %}
+										{{ post.author.get_full_name }}
+									{% elif post.author.first_name %}
+										{{ post.author.get_short_name }}
+									{% else %}
+										{{ post.author.display_name }}
+									{% endif %}
+								</a>
+								</span><br/>
 								<span class="post-date">{{post.date_posted|date:"F d, Y" }}</span><span class="dot"></span><span class="post-read">{{ post.content|readtime }}</span>
 								</span>
 								<!-- <span class="post-read-more" id="savebtn"><a href="{% url 'blog:post-detail' post.slug %}" title="Read Story"><svg class="svgIcon-use" width="25" height="25" viewbox="0 0 25 25"><path d="M19 6c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v14.66h.012c.01.103.045.204.12.285a.5.5 0 0 0 .706.03L12.5 16.85l5.662 4.126a.508.508 0 0 0 .708-.03.5.5 0 0 0 .118-.285H19V6zm-6.838 9.97L7 19.636V6c0-.55.45-1 1-1h9c.55 0 1 .45 1 1v13.637l-5.162-3.668a.49.49 0 0 0-.676 0z" fill-rule="evenodd"></path></svg></a></span> -->
@@ -233,5 +255,15 @@
 </div>
 <!-- /.container -->
 {% include "footer.html" %}
+
+{% block page_js %}
+	<script>
+		setTimeout(function(){
+		if ($('#msg').length > 0) {
+			$('#msg').remove();
+		}
+		}, 3000)
+  </script> 
+{% endblock %}
 
 {% endblock %}

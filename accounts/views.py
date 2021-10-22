@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.conf import settings
@@ -18,10 +18,19 @@ def signup(request):
         # the user has submitted the form (POST request): get the data submitted
         signup_form = SignupForm(request.POST)
         if signup_form.is_valid():
-            messages.success(request, "Your account has been created successfully.")
-            # TODO add email verification
             signup_form.save()
-            return redirect("accounts:login")
+            messages.success(request, "Your have successfully signed up for Tomar.com.")
+            messages.success(
+                request, "You can now write posts and share your idea to the world."
+            )
+            # Automatically log the user in
+            user = authenticate(
+                request,
+                email=signup_form.cleaned_data["email"],
+                password=signup_form.cleaned_data["password1"],
+            )
+            login(request, user)
+            return redirect("blog:post-list")
     else:
         # it is GET request: display an empty signup form
         signup_form = SignupForm()

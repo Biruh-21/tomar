@@ -77,16 +77,7 @@ class Account(AbstractUser):
 
     def get_display_name(self):
         """Set display name when the user signed up."""
-        if self.display_name:
-            return self.display_name
-        elif self.first_name and self.last_name:
-            display_name = self.get_full_name()
-        elif self.first_name:
-            display_name = self.get_short_name()
-        else:
-            # the username part of the email address
-            display_name = "@" + self.email.split("@")[0]
-        return display_name
+        return "@" + self.email.split("@")[0]
 
 
 class Profile(models.Model):

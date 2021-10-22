@@ -11,6 +11,16 @@
 	<div class="row">
 		<div class="col-md-2"></div>
 		<div class="col-md-8 col-md-offset-2">
+			{% if messages %}
+				{% for message in messages %}
+					<div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert" id="msg">
+					{{ message }}
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					</div>
+				{% endfor %}
+			{% endif %}
 			<div class="mainheading">
 				<div class="row post-top-meta authorpage">
 					<div class="col-md-8 col-xs-12">
@@ -91,8 +101,16 @@
 <!-- End Author Posts
 ================================================== -->
 
+{% include "footer.html" %}
+
+{% block page_js %}
+	<script>
+		setTimeout(function(){
+		if ($('#msg').length > 0) {
+			$('#msg').remove();
+		}
+		}, 3000)
+  </script> 
 {% endblock %}
 
-{% block footer %}
-	{% include "footer.html" %}
 {% endblock %}

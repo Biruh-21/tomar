@@ -36,7 +36,7 @@
                 {% else %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img class="rounded-circle" src="{{ request.user.profile.avator.url }}" alt="{{ request.user.display_name }}" width="30px" height="30px" >
+                        <img class="rounded-circle" src="{{ request.user.profile.avator.url }}" alt="{{ request.user.display_name }}" width="25px" height="25px" >
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <li><a class="dropdown-item" href="{% url 'accounts:saved' request.user.display_name %}">Saved</a></li>

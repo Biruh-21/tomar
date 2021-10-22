@@ -57,6 +57,10 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         # assign the current logged in user as author of the post
         form.instance.author = self.request.user
+        messages.success(
+            self.request,
+            "You have published a new post. You can edit or delete it anytime.",
+        )
         return super().form_valid(form)
 
 
@@ -69,6 +73,7 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def form_valid(self, form):
         form.instance.author = self.request.user
+        messages.success(self.request, "Your post have been updated.")
         return super().form_valid(form)
 
     def test_func(self):
@@ -83,6 +88,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def get_success_url(self):
         # After deleting the post, redirect to user's profile page
+        messages.success(self.request, "Your post has been delete permanently.")
         post_slug = self.kwargs["slug"]
         author = Post.objects.get(slug=post_slug).author
         return reverse_lazy("accounts:profile", args=(author.display_name,))
@@ -98,6 +104,8 @@ def bookmark_post(request, slug):
     post = get_object_or_404(Post, slug=slug)
     if post.bookmark.filter(id=request.user.pk).exists():
         post.bookmark.remove(request.user)
+        messages.warning(request, "Removed from saved posts")
     else:
         post.bookmark.add(request.user)
+        messages.success(request, "Added to your saved posts.")
     return HttpResponseRedirect(reverse("blog:post-list"))
