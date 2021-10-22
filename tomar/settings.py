@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     "ckeditor",
     "ckeditor_uploader",
     # local apps
-    "account.apps.AccountConfig",
+    "accounts.apps.AccountsConfig",
     "blog.apps.BlogConfig",
 ]
 
@@ -116,7 +116,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = "account.Account"
+AUTH_USER_MODEL = "accounts.Account"
 
 
 # Internationalization

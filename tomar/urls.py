@@ -21,7 +21,6 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path("", include("blog.urls")),
-    path("accounts/", include("account.urls")),
     path("ckeditor/", include("ckeditor_uploader.urls")),
     path(
         "account/password_reset/",
