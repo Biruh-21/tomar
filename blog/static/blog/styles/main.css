@@ -1,20 +1,31 @@
-/* for image slider */
-.carousel-item {
-    height: 89.8vh;
-    min-height: 350px;
-    background: no-repeat center center scroll;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-  }
-
-  .post-title {
-    color: black;
-    text-decoration: none;
-  }
-  
-  .post-title:hover{
-    color: #3b5998;
-    text-decoration: underline;
-  }
+/* style for comments */
+.comment {
+    width: 100%;
+    border-radius: 5px;
+    padding: 10px 20px;
+    box-shadow: 0 0 10px rgba(16, 46, 46, .4);
+}
+.comment h4,
+.comment span {
+    display: inline
+}
+.comment p,
+.comment span {
+    color: rgb(82, 79, 79)
+}
+.form-group textarea {
+    max-width: 30rem;
+    height: 10em;
+    border-radius: 12px
+}
+.text-small {
+    font-size: 13px;
+}
+#reply {
+    float: right;
+}
+#reply::after {
+    content: "";
+    clear: both;
+    display: table;
+}

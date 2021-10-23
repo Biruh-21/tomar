@@ -1,11 +1,8 @@
 from django.conf import settings
-from django.contrib.auth.models import User
 from django.db import models
-from django.db.models.base import ModelBase
 from django.utils.text import slugify
 from django.utils.crypto import get_random_string
 from django.urls import reverse
-from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField
 
 
@@ -31,8 +28,10 @@ class Post(models.Model):
     slug = models.SlugField(unique=True)  # automatically generate from title
     content = RichTextUploadingField()
     image = models.ImageField(
-        upload_to="posts/%Y/%m/%d", blank=True
-    )  # have a default image incase the user don't provide and image
+        upload_to="posts/%Y/%m/%d",
+        help_text="Select an eye catching image to be used as a cover photo for your post. "
+        "This will attract users to read your post.",
+    )
     date_posted = models.DateTimeField(auto_now=True)
     views = models.IntegerField(default=0)
     likes = models.IntegerField(default=0)
@@ -63,3 +62,18 @@ class Post(models.Model):
             slug_is_taken = Post.objects.filter(slug=unique_slug).exists()
 
         return unique_slug
+
+
+class Comment(models.Model):
+    """Users comment on posts."""
+
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    content = models.TextField(verbose_name="", max_length=300)
+    date_posted = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.content
+
+    class Meta:
+        ordering = ["-date_posted"]

@@ -1,13 +1,15 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.core.files.base import ContentFile
 from django.http.response import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
-from .models import Post
+from .models import Comment, Post
+from .forms import CommentForm
 
 
 # class HomePageView(generic.ListView):
@@ -96,6 +98,43 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def test_func(self):
         # check that the person trying to delete the post is owner of the post
         return self.get_object().author == self.request.user
+
+
+class CommentCreateView(LoginRequiredMixin, CreateView):
+    """Display comment creation form and handle the commenting process."""
+
+    model = Comment
+    fields = ["content"]
+    template_name = "blog/comments.html"
+
+    # def get_queryset(self):
+    #     return None
+
+    def form_valid(self, form):
+        # assign the current logged in user as author of the comment
+        form.instance.author = self.request.user
+        form.instance.post = Post.objects.get(slug=self.kwargs.get("slug"))
+        return super().form_valid(form)
+
+    def get_queryset(self):
+        return Comment.objects.all()
+
+
+def comments(request, slug):
+    """Manages comments on posts."""
+    post = get_object_or_404(Post, slug=slug)
+    if request.method == "POST":
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            # comment_form.save(commit=False)
+            comment_form.instance.author = request.user
+            comment_form.instance.post = post
+            comment_form.save()
+
+    comment_form = CommentForm()
+
+    context = {"comment_form": comment_form, "comments": post.comments.all()}
+    return render(request, "blog/comments_beta.html", context)
 
 
 @login_required

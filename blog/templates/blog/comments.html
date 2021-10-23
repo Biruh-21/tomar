@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %} Comments {% endblock %}
+
+{% block main %}
+
+
+<!-- Begin Author Posts
+================================================== -->
+<div class="graybg authorpage" style="border: 1px solid black;">
+
+
+	<div class="container">
+		<div class="listrecent listrelated">
+        <div class="authorpostbox">
+            <div class="card">
+                {% if request.user.is_authenticated %}
+                <div class="card-block">
+                    <form method="POST"> {% csrf_token %}
+                        {{ comment_form|crispy }}
+            
+                        <div class="d-grid text-right">
+                            <button class="btn btn-primary" type="submit">Comment</button>
+                        </div>
+                    </form>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+		<!-- begin post -->
+		{% for comment in comments %}
+		<div class="authorpostbox">
+			<div class="card">
+				<div class="card-block">
+					<h4 class="card-text">{{ comment.content }}</h4>
+					<div class="metafooter">
+						<div class="wrapfooter">
+							<span class="meta-footer-thumb" >
+							<a href="{% url 'accounts:profile' comment.author.display_name %}"><img class="author-thumb" src="{{ comment.author.profile.avator.url }}" alt="{{ comment.author.get_display_name }}"></a>
+							</span>
+							<span class="author-meta">
+							<span class="post-name"><a href="{% url 'accounts:profile' comment.author.display_name %}">{{ comment.author.get_display_name }}</a></span><br/>
+							<span class="post-date">{{comment.date_posted|date:"F d, Y" }}</span>
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+				<!-- end post -->
+		</div>
+	</div>
+</div>
+<!-- End Author Posts
+================================================== -->
+
+{% endblock %}
+

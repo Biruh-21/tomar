@@ -57,15 +57,7 @@
 								</span>
 								<span class="author-meta">
 								<span class="post-name">
-								<a href="{% url 'accounts:profile' post.author.display_name %}">
-									{% if post.author.first_name  and post.author.last_name %}
-										{{ post.author.get_full_name }}
-									{% elif post.author.first_name %}
-										{{ post.author.get_short_name }}
-									{% else %}
-										{{ post.author.display_name }}
-									{% endif %}
-								</a>
+								<a href="{% url 'accounts:profile' post.author.display_name %}">{{ post.author.get_display_name }}</a>
 								</span><br/>
 								<span class="post-date">{{post.date_posted|date:"F d, Y" }}</span><span class="dot"></span><span class="post-read">{{ post.content|readtime }}</span>
 								</span>

@@ -1,9 +1,9 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.conf import settings
 from django.db import models
-from django.db.models.expressions import F
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.utils.crypto import get_random_string
 from PIL import Image
 
 
@@ -72,12 +72,35 @@ class Account(AbstractUser):
         return self.display_name
 
     def save(self, *args, **kwargs):
-        self.display_name = self.get_display_name()
+        if not self.display_name:
+            self.display_name = self.generate_display_name()
         return super().save(*args, **kwargs)
 
     def get_display_name(self):
-        """Set display name when the user signed up."""
-        return "@" + self.email.split("@")[0]
+        """Reutrn the best option to display the user's name."""
+        if self.first_name and self.last_name:
+            return self.get_full_name()
+        elif self.first_name:
+            return self.get_short_name()
+        else:
+            return self.display_name
+
+    def generate_display_name(self):
+        """Generate a unique diplay name that will be used in urls."""
+        display_name = self.email.split("@")[0]
+        original_len = len(display_name)
+        is_taken = Account.objects.filter(display_name=display_name).exists()
+
+        while is_taken:
+            random_str = get_random_string(5, "0123456789")
+            if len(display_name) == original_len + 5:
+                # A random string is already appended. so remove it
+                display_name = display_name[:-5] + random_str
+            else:
+                display_name += random_str
+            is_taken = Account.objects.filter(display_name=display_name).exists()
+
+        return display_name
 
 
 class Profile(models.Model):
