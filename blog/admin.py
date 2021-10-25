@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Category, Comment, Post
+from .models import Bookmark, Category, Comment, Post
 
 
 @admin.register(Post)
@@ -17,3 +17,4 @@ class CommentAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Category)
+admin.site.register(Bookmark)

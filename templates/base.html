@@ -21,19 +21,19 @@
 </head>
 <body>
 
-{% include "navbar.html" %}
+    {% include "navbar.html" %}
 
-{% block main %} {% endblock %}
+    {% block main %} {% endblock %}
 
-{% block footer %} {% endblock %}
+    {% block footer %} {% endblock %}
 
 <!-- Bootstrap core JavaScript
     ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-{% block page_js %} {% endblock %}
-<script src="{% static 'scripts/jquery.min.js' %}"></script>
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script> -->
-<script src="{% static 'scripts/bootstrap.min.js' %}"></script>
-<script src="{% static 'scripts/ie10-viewport-bug-workaround.js' %}"></script>
+    {% block page_js %} {% endblock %}
+    <script src="{% static 'scripts/jquery.min.js' %}"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script> -->
+    <script src="{% static 'scripts/bootstrap.min.js' %}"></script>
+    <script src="{% static 'scripts/ie10-viewport-bug-workaround.js' %}"></script>
 </body>
 </html>

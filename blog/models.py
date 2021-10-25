@@ -33,11 +33,6 @@ class Post(models.Model):
         "This will attract users to read your post.",
     )
     date_posted = models.DateTimeField(auto_now=True)
-    views = models.IntegerField(default=0)
-    likes = models.IntegerField(default=0)
-    bookmark = models.ManyToManyField(
-        settings.AUTH_USER_MODEL, related_name="bookmark", blank=True
-    )
 
     def __str__(self):
         return self.title
@@ -62,6 +57,18 @@ class Post(models.Model):
             slug_is_taken = Post.objects.filter(slug=unique_slug).exists()
 
         return unique_slug
+
+
+class Bookmark(models.Model):
+    """Bookmark posts for later reading."""
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="bookmarks"
+    )
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.post.slug
 
 
 class Comment(models.Model):

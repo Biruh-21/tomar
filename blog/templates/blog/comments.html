@@ -4,58 +4,40 @@
 
 {% block title %} Comments {% endblock %}
 
-{% block main %}
-
-
-<!-- Begin Author Posts
-================================================== -->
-<div class="graybg authorpage" style="border: 1px solid black;">
-
-
-	<div class="container">
-		<div class="listrecent listrelated">
-        <div class="authorpostbox">
-            <div class="card">
-                {% if request.user.is_authenticated %}
-                <div class="card-block">
-                    <form method="POST"> {% csrf_token %}
-                        {{ comment_form|crispy }}
-            
-                        <div class="d-grid text-right">
-                            <button class="btn btn-primary" type="submit">Comment</button>
-                        </div>
-                    </form>
-                </div>
-                {% endif %}
-            </div>
-        </div>
-		<!-- begin post -->
-		{% for comment in comments %}
-		<div class="authorpostbox">
-			<div class="card">
-				<div class="card-block">
-					<h4 class="card-text">{{ comment.content }}</h4>
-					<div class="metafooter">
-						<div class="wrapfooter">
-							<span class="meta-footer-thumb" >
-							<a href="{% url 'accounts:profile' comment.author.display_name %}"><img class="author-thumb" src="{{ comment.author.profile.avator.url }}" alt="{{ comment.author.get_display_name }}"></a>
-							</span>
-							<span class="author-meta">
-							<span class="post-name"><a href="{% url 'accounts:profile' comment.author.display_name %}">{{ comment.author.get_display_name }}</a></span><br/>
-							<span class="post-date">{{comment.date_posted|date:"F d, Y" }}</span>
-							</span>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		{% endfor %}
-				<!-- end post -->
-		</div>
-	</div>
-</div>
-<!-- End Author Posts
-================================================== -->
-
+{% block page_css %} 
+    <link rel="stylesheet" href="{% static 'blog/styles/main.css' %}">
 {% endblock %}
 
+{% block main %}
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7 col-md-10 col-sm-12 pb-4">
+                <h2>Comments ({{ comments.count }})</h2>
+                {% for comment in comments %}
+                <div class="comment mt-4 text-justify float-left"> <img src="{{ comment.author.profile.avator.url }}" alt="" class="rounded-circle" width="30" height="30">
+                    <span class="text-small"><a href="{% url 'accounts:profile' comment.author.display_name %}">{{ comment.author.get_display_name }} </a></span>
+                    <span class="dot"></span><span class="text-small"> {{ comment.date_posted|date:"F d, Y" }}</span> 
+                    <span class="text-small" id="reply"><a href="#">Reply</a></span> <hr style="margin: 5px 0;">
+                    <p>{{ comment.content }}</p>
+                </div>
+                {% endfor %}
+            </div>
+            {% if request.user.is_authenticated %}
+            <div class="col-lg-4 col-md-12 offset-lg-1 mt-4">
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <h4>Leave a comment</h4> 
+                        {{ comment_form|crispy }}
+                        <button class="btn btn-info" type="submit"> Comment </button>
+                    </div>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+{% endblock %}

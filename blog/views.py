@@ -1,14 +1,15 @@
+from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.core.files.base import ContentFile
-from django.http.response import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse_lazy, reverse
-from django.views.generic import DetailView
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, render
+from django.urls import reverse_lazy
+from django.views.generic import View, DetailView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
-from .models import Comment, Post
+from accounts.models import Account
+from .models import Bookmark, Comment, Post
 from .forms import CommentForm
 
 
@@ -25,10 +26,20 @@ def index(request):
     """Show the home page of the website."""
     featured_posts = Post.objects.all().order_by("-date_posted")[:4]
     all_posts = Post.objects.all()[4:]
+    if request.user.pk is not None:
+        user = Account.objects.get(id=request.user.pk)
+        # bookmarks = Bookmark.objects.filter(user=user)
+        bookmarks = user.bookmarks.all()
+        saved_posts = []
+        for bookmark in bookmarks:
+            saved_posts.append(bookmark.post)
+    else:
+        saved_posts = []
+
     context = {
         "featured_posts": featured_posts,
         "all_posts": all_posts,
-        "is_bookmarked": False,
+        "saved_posts": saved_posts,
     }
     return render(request, "blog/index.html", context)
 
@@ -43,7 +54,7 @@ class PostDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         self.post = get_object_or_404(Post, slug=self.kwargs.get("slug"))
         self.is_bookmarked = False
-        if self.post.bookmark.filter(id=self.request.user.pk).exists():
+        if True:
             self.is_bookmarked = True
         context["is_bookmarked"] = self.is_bookmarked
         return context
@@ -134,17 +145,47 @@ def comments(request, slug):
     comment_form = CommentForm()
 
     context = {"comment_form": comment_form, "comments": post.comments.all()}
-    return render(request, "blog/comments_beta.html", context)
+    return render(request, "blog/comments.html", context)
+
+
+class BookmarkPost(LoginRequiredMixin, View):
+    """Handle bookmarking post using ajax calls."""
+
+    def post(self, request):
+        user_id = self.request.user.pk
+        post_id = request.POST.get("post_id")
+        if user_id is not None:
+            # the user is authenticated, go to bookmark activity
+            user = Account.objects.get(pk=user_id)
+            post = Post.objects.get(pk=post_id)
+            is_bookmarked = Bookmark.objects.filter(user=user, post=post).exists()
+            # print(post_id)
+            # print(user_id)
+            # print(is_bookmarked)
+            if is_bookmarked:
+                # remove the post from his bookmark
+                Bookmark.objects.filter(user=user, post=post).delete()
+                is_bookmarked = False
+            else:
+                # add to his bookmark list
+                Bookmark.objects.create(user=user, post=post)
+                is_bookmarked = True
+            data = {"is_bookmarked": is_bookmarked, "button_val": post_id}
+            return JsonResponse(data, status=200)
+        else:
+            data = {"is_bookmarked": False, "button_val": post_id}
+            return JsonResponse(data, status=200)
 
 
 @login_required
-def bookmark_post(request, slug):
+def bookmark_post(request, slug, pk):
     """Bookmark the post for later reading."""
-    post = get_object_or_404(Post, slug=slug)
-    if post.bookmark.filter(id=request.user.pk).exists():
-        post.bookmark.remove(request.user)
+    selected_post = get_object_or_404(Post, slug=slug)
+    if Bookmark.objects.filter(id=request.user.pk).exists():
+        Bookmark.objects.delete(user_id=request.user.pk, post_id=selected_post.pk)
         messages.warning(request, "Removed from saved posts")
     else:
-        post.bookmark.add(request.user)
+        Bookmark.objects.create(user_id=request.user.pk, post_id=selected_post.pk)
         messages.success(request, "Added to your saved posts.")
-    return HttpResponseRedirect(reverse("blog:post-list"))
+
+    # return HttpResponseRedirect(reverse("blog:post-list"))
