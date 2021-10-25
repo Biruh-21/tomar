@@ -59,7 +59,7 @@
 		<!-- End Fixed Left Share -->
 
 		<!-- Begin Post -->
-		<div class="col-md-8 col-md-offset-2 col-xs-12">
+		<div class="col-md-8 col-md-offset-2 col-sm-12">
 			{% if messages %}
 				{% for message in messages %}
 					<div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert" id="msg">
@@ -85,22 +85,16 @@
 					{% endif %}
 				</div>
 			</div>
-
-			<!-- Begin Featured Image -->
-			<img class="featured-image img-fluid" src="{{ post.image.url }}" alt="Post image">
-			<!-- End Featured Image -->
-
-			<!-- Begin Post Content -->
+			<div class="post-image">
+				<img class="featured-image img-fluid" src="{{ post.image.url }}" alt="Post image">
+			</div>
 			<div class="article-post">
 				<p>{{ post.content|safe }}</p>
 			</div>
-			<!-- End Post Content -->
-
-			<!-- Begin Tags -->
 			<div class="after-post-tags">
 				<ul class="tags">
-					<span class="btn btn-sm btn-secondary ml-2"><a href="">{{ post.category.name }}</a></span>
-					<li><a href="#">{{ post.category }}</a></li>
+					<span class="mr-2"><strong>Tags: </strong></span>
+					<li><a href="{% url 'blog:category' post.category.slug %}">{{ post.category }}</a></li>
 					<!-- <li><a href="#">Growth Mindset</a></li>
 					<li><a href="#">Productivity</a></li>
 					<li><a href="#">Personal Growth</a></li> -->

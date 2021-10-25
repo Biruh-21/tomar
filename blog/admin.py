@@ -16,5 +16,10 @@ class CommentAdmin(admin.ModelAdmin):
     list_filter = ("date_posted", "author")
 
 
-admin.site.register(Category)
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ("name",)
+    prepopulated_fields = {"slug": ("name",)}
+
+
 admin.site.register(Bookmark)

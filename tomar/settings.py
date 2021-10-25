@@ -48,7 +48,6 @@ INSTALLED_APPS = [
     "crispy_forms",
     "crispy_bootstrap5",
     "ckeditor",
-    "ckeditor_uploader",
     # local apps
     "accounts.apps.AccountsConfig",
     "blog.apps.BlogConfig",
@@ -168,4 +167,5 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 # ckeditor
+# CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
 CKEDITOR_UPLOAD_PATH = "uploads/"

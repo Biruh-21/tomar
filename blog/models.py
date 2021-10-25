@@ -1,15 +1,20 @@
+import PIL
+from PIL import Image
+from io import StringIO, BytesIO
 from django.conf import settings
 from django.db import models
 from django.utils.text import slugify
 from django.utils.crypto import get_random_string
 from django.urls import reverse
-from ckeditor_uploader.fields import RichTextUploadingField
+from django.core.files.uploadedfile import InMemoryUploadedFile
+from ckeditor.fields import RichTextField
 
 
 class Category(models.Model):
     """Category of posts written for ease of reading."""
 
     name = models.CharField(max_length=100)
+    slug = models.SlugField(unique=True)
 
     class Meta:
         verbose_name = "category"
@@ -17,6 +22,10 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
 
 
 class Post(models.Model):
@@ -26,7 +35,7 @@ class Post(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True)  # automatically generate from title
-    content = RichTextUploadingField()
+    content = RichTextField()
     image = models.ImageField(
         upload_to="posts/%Y/%m/%d",
         help_text="Select an eye catching image to be used as a cover photo for your post. "
@@ -40,9 +49,33 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse("blog:post-detail", kwargs={"slug": self.slug})
 
-    # give slug from the title
     def save(self, *args, **kwargs):
         self.slug = self.unique_slug_generator(self.title)
+        # resize and rename the cover image of the post
+        # # self.image.name =
+        # if self.pk is None:
+        #     basewidth = 1200
+        #     img = Image.open(self.image)
+        #     exif = None
+        #     if "exif" in img.info:
+        #         exif = img.info["exif"]
+        #     width_percent = basewidth / float(img.size[0])
+        #     height_size = int(float(img.size[1]) * float(width_percent))
+        #     img = img.resize((basewidth, height_size), PIL.Image.ANTIALIAS)
+        #     output = StringIO()
+        #     if exif:
+        #         img.save(output, format="JPEG", exif=exif, quality=90)
+        #     else:
+        #         img.save(output, format="JPEG", quality=90)
+        #     output.seek(0)
+        #     self.image = InMemoryUploadedFile(
+        #         output,
+        #         "ImageField",
+        #         f"{self.image.name.split('.')[0]}.jpg",
+        #         "image/jpeg",
+        #         output.len,
+        #         None,
+        #     )
         return super().save(*args, **kwargs)
 
     def unique_slug_generator(self, title):

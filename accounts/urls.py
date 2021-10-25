@@ -18,7 +18,7 @@ urlpatterns = [
         name="logout",
     ),
     path(
-        "<str:display_name>/profile", views.UserPostListView.as_view(), name="profile"
+        "<str:display_name>/profile/", views.UserPostListView.as_view(), name="profile"
     ),
     path("<str:display_name>/saved/", views.SavedPostListView.as_view(), name="saved"),
     path("<str:display_name>/about/", views.about_user, name="about-user"),

@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
-from django.views.generic import View, DetailView
+from django.views.generic import View, ListView, DetailView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 from accounts.models import Account
@@ -115,24 +115,15 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return self.get_object().author == self.request.user
 
 
-class CommentCreateView(LoginRequiredMixin, CreateView):
-    """Display comment creation form and handle the commenting process."""
+class CategoryView(ListView):
+    """Show all post in a certain category."""
 
-    model = Comment
-    fields = ["content"]
-    template_name = "blog/comments.html"
-
-    # def get_queryset(self):
-    #     return None
-
-    def form_valid(self, form):
-        # assign the current logged in user as author of the comment
-        form.instance.author = self.request.user
-        form.instance.post = Post.objects.get(slug=self.kwargs.get("slug"))
-        return super().form_valid(form)
+    model = Post
+    template_name = "blog/category.html"
+    context_object_name = "category_posts"
 
     def get_queryset(self):
-        return Comment.objects.all()
+        return Post.objects.filter(category__slug=self.kwargs.get("slug"))
 
 
 def comments(request, slug):
