@@ -155,7 +155,7 @@ span.post-read-more {
 	/* display:inline-block; */
 	margin-top:8px;	
 }
-span.post-read-more a {
+span.post-read-more a, .bookmark-icon {
 	color:rgba(0,0,0,.44);
 }
 span.post-name a,span.post-read-more a:hover {

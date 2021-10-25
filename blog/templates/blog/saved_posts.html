@@ -29,15 +29,12 @@
 							<span class="post-name"><a href="{% url 'accounts:profile' user.display_name %}">{{ post.author.display_name }}</a></span><br/>
 							<span class="post-date">{{post.date_posted|date:"F d, Y" }}</span><span class="dot"></span><span class="post-read">{{ post.content|readtime }}</span>
 							</span>
-                            <span class="post-read-more">
-                                <a href="{% url 'blog:bookmark' post.slug %}">
-                                    {% if request.user in post.bookmark.all %}
-                                    <i class="fas fa-bookmark fa-lg"></i> 
-                                    {% else %}
-                                    <i class="far fa-bookmark fa-lg"></i>
-                                    {% endif %}
-                                </a>
-                            </span>
+							<span class="post-read-more">
+								{% csrf_token %}
+								<button class="bookmark-icon" style="all: unset;cursor: pointer;" value="{{ post.pk }}">
+									<i class="fas fa-bookmark fa-lg"></i>
+								</button>
+							</span>
 						</div>
 					</div>
 				</div>
@@ -48,8 +45,19 @@
 		</div>
 	</div>
 </div>
-<!-- End Author Posts
-================================================== -->
+
+{% block page_js %}
+	<script>
+		setTimeout(function(){
+		if ($('#msg').length > 0) {
+			$('#msg').remove();
+		}
+		}, 4000)
+  	</script> 
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="{% static 'blog/scripts/main.js' %}"></script>
+	
+{% endblock %}
 
 {% endblock %}
 

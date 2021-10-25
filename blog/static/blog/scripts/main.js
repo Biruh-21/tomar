@@ -8,7 +8,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "POST",
-            url: "bookmark/",
+            url: "/bookmark/",
             data: {
                 post_id: post_id,
                 csrfmiddlewaretoken: csrf_token,

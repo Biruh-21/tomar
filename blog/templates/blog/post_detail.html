@@ -31,9 +31,7 @@
 				</ul>
 				<div class="sep">
 				</div>
-				<p>
-					Talk
-				</p>
+				<p>Talk</p>
 				<ul>
 					<li>
 					<a href="{% url 'blog:comment' post.slug %}">
@@ -47,13 +45,14 @@
 					</li>
 				</ul>
 				<p>
-					<a href="{% url 'blog:bookmark' %}">
-						{% if is_bookmarked %}
-						<i class="fas fa-bookmark fa-lg"></i> 
-						{% else %}
+					{% csrf_token %}
+					<button class="bookmark-icon" style="all: unset;cursor: pointer;" value="{{ post.pk }}">
+					{% if post in saved_posts %}
+						<i class="fas fa-bookmark fa-lg"></i>
+					{% else %}
 						<i class="far fa-bookmark fa-lg"></i>
-						{% endif %}
-					</a>
+					{% endif %}
+					</button>
 				</p>
 			</div>
 		</div>
@@ -231,7 +230,10 @@
 			$('#msg').remove();
 		}
 		}, 4000)
-  </script> 
+  	</script> 
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="{% static 'blog/scripts/main.js' %}"></script>
+	
 {% endblock %}
 
 {% endblock %}

@@ -63,7 +63,7 @@
 								</span>
 								<span class="post-read-more">
 									{% csrf_token %}
-									<button class="btn btn-link btn-outline-light bookmark-icon" value="{{ post.pk }}">
+									<button class="bookmark-icon" style="all: unset;cursor: pointer; color:rgba(0,0,0,.44);" value="{{ post.pk }}">
 									{% if post in saved_posts %}
 										<i class="fas fa-bookmark fa-lg"></i>
 									{% else %}

@@ -2,6 +2,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.conf import settings
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import ListView
@@ -95,16 +96,20 @@ class UserPostListView(ListView):
         return context
 
 
-class SavedPostListView(ListView):
+class SavedPostListView(LoginRequiredMixin, ListView):
     """Show saved posts by the user."""
 
-    model = settings.AUTH_USER_MODEL
+    model = Account
     context_object_name = "saved_posts"
     template_name = "blog/saved_posts.html"
 
     def get_queryset(self):
-        user = get_object_or_404(Account, display_name=self.kwargs.get("display_name"))
-        return user.bookmark.all()
+        user = Account.objects.get(id=self.request.user.pk)
+        bookmarks = user.bookmarks.all()
+        saved_posts = []
+        for bookmark in bookmarks:
+            saved_posts.append(bookmark.post)
+        return saved_posts
 
 
 def about_user(request, display_name):
