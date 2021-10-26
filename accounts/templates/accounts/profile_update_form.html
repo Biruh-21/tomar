@@ -9,7 +9,7 @@
 {% endblock %} 
 
 {% block main %}
-<div class="container gray-bg p-lg-5">
+<div class="container-fluid main gray-bg p-lg-5">
         <div class="row">
             <div class="col-lg-4">
                 <div class="card">
@@ -20,7 +20,7 @@
                                 <h4>{{ user.get_full_name }}</h4>
                                 <p class="text-secondary mb-1">{{ user.profile.bio }}</p>
                                 <p class="text-small text-primary">
-                                    <span>84k Followers</span><span class="dot"></span><span>143 Following</span>
+                                    <span>84k Followers </span><span class="dot"></span><span>143 Following</span>
                                 </p>
                             </div>
                         </div>
@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div class="col-lg-1 b-1"></div>
-            <div class="class col-lg-6">
+            <div class="class col-md-8 col-lg-4">
                 <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     <fieldset class="form-group">
@@ -38,7 +38,8 @@
                         {{ profile_form|crispy }}
                     </fieldset>
                     <div class="d-grid">
-                        <button class="btn btn-primary" type="submit"> Save Changes </button>
+                        <button class="btn btn-primary mr-2" type="submit"> Save Changes </button>
+                        <a class="btn btn-outline-primary" href="{% url 'accounts:profile' user.display_name %}">Cancel </a>                     
                     </div>
                 </form>
             </div>

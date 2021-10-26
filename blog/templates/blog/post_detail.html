@@ -12,7 +12,7 @@
 	<div class="row">
 
 		<!-- Begin Fixed Left Share -->
-		<div class="col-md-2 col-xs-12">
+		<div class="col-md-1 col-sm-12">
 			<div class="share">
 				<p>
 					Share
@@ -29,9 +29,7 @@
 					</a>
 					</li>
 				</ul>
-				<div class="sep">
-				</div>
-				<p>Talk</p>
+				<div class="sep"></div>
 				<ul>
 					<li>
 					<a href="{% url 'blog:comment' post.slug %}">
@@ -47,7 +45,7 @@
 				<p>
 					{% csrf_token %}
 					<button class="bookmark-icon" style="all: unset;cursor: pointer;" value="{{ post.pk }}">
-					{% if post in saved_posts %}
+					{% if is_bookmarked %}
 						<i class="fas fa-bookmark fa-lg"></i>
 					{% else %}
 						<i class="far fa-bookmark fa-lg"></i>
@@ -57,7 +55,7 @@
 			</div>
 		</div>
 		<!-- End Fixed Left Share -->
-
+		<div class="col-md-1"></div>
 		<!-- Begin Post -->
 		<div class="col-md-8 col-md-offset-2 col-sm-12">
 			{% if messages %}
@@ -79,14 +77,14 @@
 					</div>
 					{% if request.user == post.author %}
 						<div class="col-6 text-right">
-							<a class="btn btn-sm btn-outline-primary" href="{% url 'blog:post-update' post.slug %}">Edit</a>
-							<a class="btn btn-sm btn-outline-primary" href="{% url 'blog:post-delete' post.slug %}">Delete</a>
+							<a href="{% url 'blog:post-update' post.slug %}"><i class="fas fa-edit"></i></a> &nbsp;
+							<a class="trash-icon" href="{% url 'blog:post-delete' post.slug %}"><i class="fas fa-trash"></i></a>
 						</div>
 					{% endif %}
 				</div>
 			</div>
 			<div class="post-image">
-				<img class="featured-image img-fluid" src="{{ post.image.url }}" alt="Post image">
+				<img class="featured-image img-fluid post-image" src="{{ post.image.url }}" alt="Post image">
 			</div>
 			<div class="article-post">
 				<p>{{ post.content|safe }}</p>

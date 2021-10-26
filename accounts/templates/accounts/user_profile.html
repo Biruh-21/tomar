@@ -82,8 +82,8 @@
 							</span>
 							{% if request.user == post.author %}
 							<span class="post-action">
-								<a class="btn btn-sm btn-outline-primary" href="{% url 'blog:post-update' post.slug %}">Edit</a>
-								<a class="btn btn-sm btn-outline-primary" href="{% url 'blog:post-delete' post.slug %}">Delete</a>
+								<a href="{% url 'blog:post-update' post.slug %}"><i class="fas fa-edit fa-lg"></i></a> &nbsp;
+								<a class="trash-icon" href="{% url 'blog:post-delete' post.slug %}"><i class="fas fa-trash fa-lg"></i></a>
 							</span>
 							{% else %}
 							<span class="post-read-more">

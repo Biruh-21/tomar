@@ -1,14 +1,11 @@
-/*
-Template Name:Mediumish
-Copyright:WowThemes.net,https://www.wowthemes.net
-Version:1.0.1
-License: https://www.wowthemes.net/freebies-license/
-*/
+
 body {
-	padding-top:5rem;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
 }
 .mainheading {
-	padding:1rem 0rem;
+	padding: 5rem 0rem;
 }
 a {
 	color:#00A8FF;
@@ -18,7 +15,7 @@ a,a:hover {
 }
 .mediumnavigation {
 	background:rgba(255,255,255,.97);
-	box-shadow:0 2px 2px -2px rgba(0,0,0,.15);
+	box-shadow:0 2px 2px -1px rgba(22, 16, 16, 0.2);
 }
 section {
 	margin-bottom:20px;
@@ -245,7 +242,7 @@ blockquote {
 }
 .share {
 	text-align:center;
-	margin-top:20px;
+	padding-top: 5rem;
 }
 .share p {
 	margin-bottom:10px;
@@ -265,9 +262,8 @@ blockquote {
 .svgIcon {
 	vertical-align:middle;
 }
-@media (min-width:1024px) {
+@media (min-width:768px) {
 	.share {
-		position:fixed;
 		display:block;
 	}
 	.share ul li {
@@ -447,4 +443,8 @@ ul.tags li a:hover {
 	line-height:22px;
 	border-radius:50%;
 	font-size:12px;
+}
+
+.trash-icon {
+	color: red;
 }

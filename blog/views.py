@@ -53,14 +53,14 @@ class PostDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         self.post = get_object_or_404(Post, slug=self.kwargs.get("slug"))
-        self.is_bookmarked = False
+        is_bookmarked = False
         if self.request.user.pk is not None:
             user = Account.objects.get(id=self.request.user.pk)
             bookmarks = user.bookmarks.all()
-            saved_posts = []
             for bookmark in bookmarks:
-                saved_posts.append(bookmark.post)
-        context["saved_posts"] = saved_posts
+                if bookmark.post == self.post:
+                    is_bookmarked = True
+        context["is_bookmarked"] = is_bookmarked
         return context
 
 
