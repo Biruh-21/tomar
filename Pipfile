@@ -12,6 +12,7 @@ pillow = "*"
 django-ckeditor = "*"
 readtime = "*"
 django-environ = "*"
+tinify = "*"
 
 [dev-packages]
 black = "*"

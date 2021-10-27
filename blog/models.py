@@ -1,12 +1,12 @@
-import PIL
-from PIL import Image
-from io import StringIO, BytesIO
+from io import BytesIO
+
+from PIL import Image, ImageOps
 from django.conf import settings
 from django.db import models
 from django.utils.text import slugify
 from django.utils.crypto import get_random_string
 from django.urls import reverse
-from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.core.files import File
 from ckeditor.fields import RichTextField
 
 
@@ -50,33 +50,17 @@ class Post(models.Model):
         return reverse("blog:post-detail", kwargs={"slug": self.slug})
 
     def save(self, *args, **kwargs):
+        img = Image.open(self.image)
+        img = img.convert("RGB")  # for saving the image in JPEG format
+        img = ImageOps.exif_transpose(img)
+        img = ImageOps.fit(img, (1200, 630))  # resing and croping the image
+        output = BytesIO()
+        img.save(output, format="JPEG", quality=80)
+        img_file = File(output, name=self.image.name)
+        self.image = img_file
+
         self.slug = self.unique_slug_generator(self.title)
-        # resize and rename the cover image of the post
-        # # self.image.name =
-        # if self.pk is None:
-        #     basewidth = 1200
-        #     img = Image.open(self.image)
-        #     exif = None
-        #     if "exif" in img.info:
-        #         exif = img.info["exif"]
-        #     width_percent = basewidth / float(img.size[0])
-        #     height_size = int(float(img.size[1]) * float(width_percent))
-        #     img = img.resize((basewidth, height_size), PIL.Image.ANTIALIAS)
-        #     output = StringIO()
-        #     if exif:
-        #         img.save(output, format="JPEG", exif=exif, quality=90)
-        #     else:
-        #         img.save(output, format="JPEG", quality=90)
-        #     output.seek(0)
-        #     self.image = InMemoryUploadedFile(
-        #         output,
-        #         "ImageField",
-        #         f"{self.image.name.split('.')[0]}.jpg",
-        #         "image/jpeg",
-        #         output.len,
-        #         None,
-        #     )
-        return super().save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def unique_slug_generator(self, title):
         """Generate unique slug from the post title."""
