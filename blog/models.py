@@ -1,13 +1,28 @@
+import os
 from io import BytesIO
 
-from PIL import Image, ImageOps
 from django.conf import settings
+from django.core import files
 from django.db import models
+from django.db.models.signals import post_delete
 from django.utils.text import slugify
 from django.utils.crypto import get_random_string
 from django.urls import reverse
 from django.core.files import File
+from django.dispatch import receiver
+from PIL import Image, ImageOps
 from ckeditor.fields import RichTextField
+
+
+def get_image_path(instance, filename):
+    """Generate a unique name for the image and return its full path."""
+    from datetime import date
+
+    ext = filename.split(".")[-1]
+    new_filename = f"{instance.slug}.{ext}"
+    today_path = date.today().strftime("%Y/%m/%d")
+    image_path = f"posts/{today_path}/{new_filename}"
+    return image_path
 
 
 class Category(models.Model):
@@ -37,7 +52,7 @@ class Post(models.Model):
     slug = models.SlugField(unique=True)  # automatically generate from title
     content = RichTextField()
     image = models.ImageField(
-        upload_to="posts/%Y/%m/%d",
+        upload_to=get_image_path,
         help_text="Select an eye catching image to be used as a cover photo for your post. "
         "This will attract users to read your post.",
     )
@@ -58,22 +73,10 @@ class Post(models.Model):
         img.save(output, format="JPEG", quality=80)
         img_file = File(output, name=self.image.name)
         self.image = img_file
+        # assign a unique slug from the title of the post
+        self.slug = unique_slug_generator(self.title)
 
-        self.slug = self.unique_slug_generator(self.title)
         super().save(*args, **kwargs)
-
-    def unique_slug_generator(self, title):
-        """Generate unique slug from the post title."""
-        unique_slug = slugify(title)  # convert the post title to slug
-        # is there any post with this slug
-        slug_is_taken = Post.objects.filter(slug=unique_slug).exists()
-
-        while slug_is_taken:
-            random_string = get_random_string(length=12)
-            unique_slug += "-" + random_string
-            slug_is_taken = Post.objects.filter(slug=unique_slug).exists()
-
-        return unique_slug
 
 
 class Bookmark(models.Model):
@@ -101,3 +104,28 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ["-date_posted"]
+
+
+def unique_slug_generator(title):
+    """Generate unique slug from the post title."""
+    unique_slug = slugify(title)  # convert the post title to slug
+    # is there any post with this slug
+    slug_is_taken = Post.objects.filter(slug=unique_slug).exists()
+
+    while slug_is_taken:
+        random_string = get_random_string(length=12)
+        unique_slug += "-" + random_string
+        slug_is_taken = Post.objects.filter(slug=unique_slug).exists()
+
+    return unique_slug
+
+
+@receiver(post_delete, sender=Post)
+def post_delete_image_handler(sender, instance, *args, **kwargs):
+    """Deletes the image associated with the post after the post has been deleted."""
+    if instance.image and instance.image.url:
+        try:
+            os.remove(instance.image.path)
+        except OSError:
+            # if the image doesn't exist, pass it
+            pass
