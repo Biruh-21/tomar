@@ -21,7 +21,7 @@
 					</div>
 				{% endfor %}
 			{% endif %}
-			<div class="mainheading">
+			<div>
 				<div class="row post-top-meta authorpage">
 					<div class="col-md-8 col-xs-12">
 						{% if user.first_name %}
@@ -66,7 +66,7 @@
 		<div class="authorpostbox">
 			<div class="card">
 				<a href="{% url 'blog:post-detail' post.slug %}">
-				<img class="img-fluid img-thumb" src="{{ post.image.url }}" alt="">
+				<img class="img-fluid img-thumb" src="{{ post.image.url }}" alt="{{ post.title }}">
 				</a>
 				<div class="card-block">
 					<h2 class="card-title"><a href="{% url 'blog:post-detail' post.slug %}">{{ post.title }}</a></h2>

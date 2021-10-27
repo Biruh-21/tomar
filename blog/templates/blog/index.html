@@ -97,7 +97,7 @@
 		{% for post in all_posts %}
 		<div class="card">
 			<a href="#">
-				<img class="img-fluid" src="{{ post.image.url }}" alt="{Post image}">
+				<img class="img-fluid" src="{{ post.image.url }}" alt="{{ post.title }}">
 			</a>
 			<div class="card-block">
 				<h2 class="card-title"><a href="#">{{ post.title }}</a></h2>
