@@ -3,11 +3,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import ListView
+from django.views.generic.base import View
 
 from .forms import SignupForm, UserUpdateForm, ProfileUpdateForm
-from .models import Account
+from .models import Account, Profile
 from blog.models import Post
 
 
@@ -63,19 +65,6 @@ def update_profile(request, display_name):
     return render(request, "accounts/profile_update_form.html", context)
 
 
-# def profile(request, username):
-#     """Show author's profile and his/her posts."""
-
-#     user = get_object_or_404(User, username=username)
-#     user_posts = Post.objects.filter(user=user)
-
-#     context = {
-#         "user": user,
-#         "user_posts": user_posts,
-#     }
-#     return render(request, "accounts/profile.html", context)
-
-
 class UserPostListView(ListView):
     """Show profile of the user and all posts posted by the user."""
 
@@ -109,6 +98,24 @@ class SavedPostListView(LoginRequiredMixin, ListView):
         for bookmark in bookmarks:
             saved_posts.append(bookmark.post)
         return saved_posts
+
+
+class FollowView(LoginRequiredMixin, View):
+    """Handle Follow and Unfollow process."""
+
+    def post(self, request):
+        current_user = self.request.user  # the user making the request
+        if current_user is not None:
+            user_id = request.POST["user_id"]  # the user to follow or unfollow
+            user_profile = Profile.objects.get(user__id=user_id)
+            following = False
+            if not user_profile.user in current_user.profile.following_list:
+                current_user.profile.following.add(user_profile)
+                following = True
+            else:
+                current_user.profile.following.remove(user_profile)
+
+            return JsonResponse({"following": following}, status=200)
 
 
 def about_user(request, display_name):

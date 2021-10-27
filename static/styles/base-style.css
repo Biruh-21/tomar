@@ -447,7 +447,10 @@ ul.tags li a:hover {
 	border-radius:50%;
 	font-size:12px;
 }
-
 .trash-icon {
 	color: red;
 }
+/* .following {
+	background: none;
+	color: #00A8FF
+} */

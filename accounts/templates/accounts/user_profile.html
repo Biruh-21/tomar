@@ -31,11 +31,13 @@
 						{% endif %}
 
 						<span class="author-description">{{ user.profile.bio }}</span> <br>
-
+						{% csrf_token %}
 						{% if request.user.display_name == user.display_name %}
 							<a href="{% url 'accounts:profile-update' user.display_name %}" class="btn follow btn-primary">Update</a>
+						{% elif request.user in user.profile.followers_list %}
+							<button class="btn btn-outline-primary follow follow-btn" value="{{ user.pk }}" style="cursor: pointer;">Following</button>
 						{% else %}
-							<a href="#" class="btn follow btn-primary">Follow</a>
+							<button class="btn btn-primary follow follow-btn" value="{{ user.pk }}" style="cursor: pointer;">Follow</button>
 						{% endif %}
 						<a href="{% url 'accounts:about-user' user.display_name %}" class="btn follow btn-outline-primary">About</a>
 					</div>
@@ -44,7 +46,9 @@
 							<img class="author-thumb" src="{{ user.profile.avator.url }}" alt="{{ user.display_name }}">
 						</p>
 						<p class="text-small text-center text-primary">
-							<span><a href="#">84k Followers</a></span><span class="dot"></span><span><a href="#">143 Following</a></span>
+							<span><a href="#">{{ user.profile.followers_list|length }} Followers</a></span>
+							<span class="dot"></span>
+							<span><a href="#">{{ user.profile.following_list|length }} Following</a></span>
 						</p>
 					</div>
 				</div>
@@ -122,7 +126,7 @@
   </script> 
   	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="{% static 'blog/scripts/main.js' %}"></script>
-  
+	<script src="{% static 'accounts/scripts/follow.js' %}"></script>
 {% endblock %}
 
 {% endblock %}

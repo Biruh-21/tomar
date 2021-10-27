@@ -112,6 +112,9 @@ class Profile(models.Model):
     avator = models.ImageField(
         default="default-avator.jpg", upload_to="profile_pics/%Y/%m/%d"
     )
+    following = models.ManyToManyField(
+        "self", symmetrical=False, related_name="followers", blank=True
+    )
 
     def __str__(self):
         return f"{self.user.display_name}'s profile"
@@ -124,11 +127,24 @@ class Profile(models.Model):
             img.thumbnail(size=(300, 300))
             img.save(self.avator.path)  # replace the larger image
 
-    @receiver(post_save, sender=settings.AUTH_USER_MODEL)
-    def create_or_save_profile(sender, instance, created, **kwargs):
-        """Automatically create user profile after sign up OR
-        Automatically update user profile when user information is updated.
-        """
-        if created:
-            Profile.objects.create(user=instance)
-        instance.profile.save()
+    @property
+    def following_list(self):
+        """Return the list of users the user is currently following."""
+        following = [profile.user for profile in self.user.profile.following.all()]
+        return following
+
+    @property
+    def followers_list(self):
+        """Return the list of followers of the user."""
+        followers = [profile.user for profile in self.user.profile.followers.all()]
+        return followers
+
+
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_or_save_profile(sender, instance, created, **kwargs):
+    """Automatically create a user profile after sign up OR
+    automatically update a user profile when user information is updated.
+    """
+    if created:
+        Profile.objects.create(user=instance)
+    instance.profile.save()
