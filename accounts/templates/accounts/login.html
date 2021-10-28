@@ -9,31 +9,55 @@
 {% endblock %} 
 
 {% block main %}
-<div class="container-fluid main">
-  <div class="row">
-    <div class="col-sm-12 col-md-8 col-lg-4 mx-auto">
-      <div class="card border-0 shadow rounded-3 my-5">
-        <div class="card-body p-4 p-sm-5" style="box-shadow: 0 0 10px rgba(71, 71, 71, .4);">
-          <h5 class="card-title text-center mb-4 fw-light fs-5">Sign in to Tomar</h5>
-          <form method="POST"> {% csrf_token %} 
-            {{ form|crispy }}
-  
-            <div class="text-right mb-3">
-              <a href="{% url 'password_reset' %}">Forgot password?</a>
+
+  <div class="container-fluid main">
+    <div class="row">
+      <div class="col-sm-12 col-md-8 col-lg-4 mx-auto">
+          {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert" id="msg">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
             </div>
-            <div class="d-grid">
-              <button class="btn btn-primary btn-block" type="submit"> Sign in </button>
-            </div>
-            <hr class="my-4" />
-            <br />
-            <div class="text-center">
-              Don't have an account?
-              <a href="{% url 'accounts:signup'%}">Create One</a>
-            </div>
-          </form>
+          {% endfor %}
+          {% endif %}
+        <div class="card border-0 shadow rounded-3 my-5">
+          <div class="card-body p-4 p-sm-5" style="box-shadow: 0 0 10px rgba(71, 71, 71, .4);">
+            <h5 class="card-title text-center mb-4 fw-light fs-5">Sign in to Tomar</h5>
+            <form method="POST"> {% csrf_token %} 
+              {{ form|crispy }}
+    
+              <div class="text-right mb-3">
+                <a href="{% url 'password_reset' %}">Forgot password?</a>
+              </div>
+              <div class="d-grid">
+                <button class="btn btn-primary btn-block" type="submit"> Sign in </button>
+              </div>
+              <hr class="my-4" />
+              <br />
+              <div class="text-center">
+                Don't have an account?
+                <a href="{% url 'accounts:signup'%}">Create One</a>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+
+  {% block page_js %}
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script>
+		setTimeout(function(){
+		if ($('#msg').length > 0) {
+			$('#msg').remove();
+		}
+		}, 3000)
+	</script>
+	<script src="{% static 'blog/scripts/main.js' %}"></script>
+{% endblock %}
+
 {% endblock %}

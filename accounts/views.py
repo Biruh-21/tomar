@@ -100,12 +100,12 @@ class SavedPostListView(LoginRequiredMixin, ListView):
         return saved_posts
 
 
-class FollowView(LoginRequiredMixin, View):
+class FollowView(View):
     """Handle Follow and Unfollow process."""
 
     def post(self, request):
         current_user = self.request.user  # the user making the request
-        if current_user is not None:
+        if current_user.is_authenticated:
             user_id = request.POST["user_id"]  # the user to follow or unfollow
             user_profile = Profile.objects.get(user__id=user_id)
             following = False
@@ -116,6 +116,12 @@ class FollowView(LoginRequiredMixin, View):
                 current_user.profile.following.remove(user_profile)
 
             return JsonResponse({"following": following}, status=200)
+        else:
+            messages.info(
+                self.request,
+                "Login to your account to follow other users.",
+            )
+            return JsonResponse({"not_authenticated": True}, status=401)
 
 
 def about_user(request, display_name):

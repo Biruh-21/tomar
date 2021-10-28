@@ -143,7 +143,7 @@ def comments(request, slug):
     return render(request, "blog/comments.html", context)
 
 
-class BookmarkPost(LoginRequiredMixin, View):
+class BookmarkPost(View):
     """Handle bookmarking post using ajax calls."""
 
     def post(self, request):
@@ -168,8 +168,12 @@ class BookmarkPost(LoginRequiredMixin, View):
             data = {"is_bookmarked": is_bookmarked, "button_val": post_id}
             return JsonResponse(data, status=200)
         else:
+            messages.info(
+                self.request,
+                "Login to your account to bookmark posts for later reading.",
+            )
             data = {"is_bookmarked": False, "button_val": post_id}
-            return JsonResponse(data, status=200)
+            return JsonResponse(data, status=401)
 
 
 @login_required

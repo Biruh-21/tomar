@@ -7,7 +7,7 @@ $(document).ready(function () {
         var post_id = $(this).val();
 
         $.ajax({
-            type: "POST",
+            method: "POST",
             url: "/bookmark/",
             data: {
                 post_id: post_id,
@@ -22,6 +22,20 @@ $(document).ready(function () {
                     clicked_btn.html('<i class="fas fa-bookmark fa-lg"></i>')
                 } else {
                     clicked_btn.html('<i class="far fa-bookmark fa-lg"></i>')
+                }
+            },
+            statusCode: {
+                200: function (response) {
+                    console.log(response);
+                    clicked_btn = $("button[value='" + response["button_val"] + "']")
+                    if (response["is_bookmarked"] == true) {
+                        clicked_btn.html('<i class="fas fa-bookmark fa-lg"></i>')
+                    } else {
+                        clicked_btn.html('<i class="far fa-bookmark fa-lg"></i>')
+                    }
+                },
+                401: function (response) {
+                    window.location.reload();
                 }
             }
         })
