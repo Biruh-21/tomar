@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Bookmark, Category, Comment, Post
+from .models import Category, Comment, Post
 
 
 @admin.register(Post)
@@ -20,6 +20,3 @@ class CommentAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ("name",)
     prepopulated_fields = {"slug": ("name",)}
-
-
-admin.site.register(Bookmark)

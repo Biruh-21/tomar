@@ -93,10 +93,7 @@ class SavedPostListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         user = Account.objects.get(id=self.request.user.pk)
-        bookmarks = user.bookmarks.all()
-        saved_posts = []
-        for bookmark in bookmarks:
-            saved_posts.append(bookmark.post)
+        saved_posts = [post for post in user.bookmarks.all()]
         return saved_posts
 
 

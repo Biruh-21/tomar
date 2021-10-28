@@ -56,6 +56,10 @@ class Post(models.Model):
         "This will attract users to read your post.",
     )
     date_posted = models.DateTimeField(auto_now=True)
+    likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="likes")
+    bookmark = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, related_name="bookmarks"
+    )
 
     def __str__(self):
         return self.title
@@ -77,17 +81,15 @@ class Post(models.Model):
 
         super().save(*args, **kwargs)
 
+    @property
+    def likers_list(self):
+        """Return the list of users who liked the post."""
+        return [user for user in self.likes.all()]
 
-class Bookmark(models.Model):
-    """Bookmark posts for later reading."""
-
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="bookmarks"
-    )
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.post.slug
+    @property
+    def bookmarkers_list(self):
+        """Return the list of users who bookmarked the post."""
+        return [user for user in self.bookmark.all()]
 
 
 class Comment(models.Model):

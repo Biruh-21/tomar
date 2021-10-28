@@ -1,10 +1,24 @@
+from io import BytesIO
+
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.conf import settings
+from django.core.files import File
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.crypto import get_random_string
 from PIL import Image
+
+
+def get_avator_path(instance, filename):
+    """Generate a unique name for the profile image and return its full path."""
+    from datetime import date
+
+    ext = filename.split(".")[-1]
+    new_filename = f"{instance.user.get_display_name()}_profile_pic.{ext}"
+    today_path = date.today().strftime("%Y/%m/%d")
+    image_path = f"profile_pics/{today_path}/{new_filename}"
+    return image_path
 
 
 class AccountManager(BaseUserManager):
@@ -109,9 +123,7 @@ class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     bio = models.CharField(max_length=150, blank=True)
     about = models.TextField(blank=True)
-    avator = models.ImageField(
-        default="default-avator.jpg", upload_to="profile_pics/%Y/%m/%d"
-    )
+    avator = models.ImageField(default="default-avator.jpg", upload_to=get_avator_path)
     following = models.ManyToManyField(
         "self", symmetrical=False, related_name="followers", blank=True
     )
@@ -120,12 +132,15 @@ class Profile(models.Model):
         return f"{self.user.display_name}'s profile"
 
     def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
+        img = Image.open(self.avator)
+        img = img.convert("RGB")  # for saving the image in JPEG format
+        img.thumbnail((150, 150))
+        output = BytesIO()
+        img.save(output, format="JPEG", quality=80)
+        img_file = File(output, name=self.avator.name)
+        self.avator = img_file
 
-        img = Image.open(self.avator.path)
-        if img.width > 300 or img.height > 300:
-            img.thumbnail(size=(300, 300))
-            img.save(self.avator.path)  # replace the larger image
+        super().save(*args, **kwargs)
 
     @property
     def following_list(self):

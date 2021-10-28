@@ -3,7 +3,8 @@ $(document).ready(function () {
     let csrf_token = $("input[name=csrfmiddlewaretoken]").val();
 
     $(".follow-btn").off("click").on("click", function () {
-        user_id = $(this).val();
+        let $this = $(this);
+        let user_id = $this.val();
 
         $.ajax({
             method: "POST",
@@ -14,14 +15,12 @@ $(document).ready(function () {
             },
             statusCode: {
                 200: function (response) {
-                    console.log(response);
-                    follow_btn = $(".follow-btn");
                     if (response["following"] == true) {
-                        follow_btn.html('Following');
-                        follow_btn.attr("class", "btn btn-outline-primary follow follow-btn");
+                        $this.html('Following');
+                        $this.attr("class", "btn btn-outline-primary follow follow-btn");
                     } else {
-                        follow_btn.html('Follow');
-                        follow_btn.attr("class", "btn btn-primary follow follow-btn");
+                        $this.html('Follow');
+                        $this.attr("class", "btn btn-primary follow follow-btn");
                     }
                 },
                 401: function (response) {

@@ -9,7 +9,7 @@ from django.views.generic import View, ListView, DetailView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 from accounts.models import Account
-from .models import Bookmark, Comment, Post
+from .models import Comment, Post
 from .forms import CommentForm
 
 
@@ -29,10 +29,7 @@ def index(request):
     if request.user.pk is not None:
         user = Account.objects.get(id=request.user.pk)
         # bookmarks = Bookmark.objects.filter(user=user)
-        bookmarks = user.bookmarks.all()
-        saved_posts = []
-        for bookmark in bookmarks:
-            saved_posts.append(bookmark.post)
+        saved_posts = [post for post in user.bookmarks.all()]
     else:
         saved_posts = []
 
@@ -54,13 +51,16 @@ class PostDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         self.post = get_object_or_404(Post, slug=self.kwargs.get("slug"))
         is_bookmarked = False
+        is_liked = False
         if self.request.user.pk is not None:
             user = Account.objects.get(id=self.request.user.pk)
-            bookmarks = user.bookmarks.all()
-            for bookmark in bookmarks:
-                if bookmark.post == self.post:
-                    is_bookmarked = True
+            if user in self.post.bookmarkers_list:
+                is_bookmarked = True
+            if user in self.post.likers_list:
+                is_liked = True
+
         context["is_bookmarked"] = is_bookmarked
+        context["is_liked"] = is_liked
         return context
 
 
@@ -153,38 +153,44 @@ class BookmarkPost(View):
             # the user is authenticated, go to bookmark activity
             user = Account.objects.get(pk=user_id)
             post = Post.objects.get(pk=post_id)
-            is_bookmarked = Bookmark.objects.filter(user=user, post=post).exists()
-            # print(post_id)
-            # print(user_id)
-            # print(is_bookmarked)
-            if is_bookmarked:
-                # remove the post from his bookmark
-                Bookmark.objects.filter(user=user, post=post).delete()
-                is_bookmarked = False
-            else:
-                # add to his bookmark list
-                Bookmark.objects.create(user=user, post=post)
+            is_bookmarked = False
+            if not user in post.bookmarkers_list:
+                post.bookmark.add(user)
                 is_bookmarked = True
-            data = {"is_bookmarked": is_bookmarked, "button_val": post_id}
-            return JsonResponse(data, status=200)
+            else:
+                post.bookmark.remove(user)
+            return JsonResponse({"is_bookmarked": is_bookmarked}, status=200)
         else:
             messages.info(
                 self.request,
                 "Login to your account to bookmark posts for later reading.",
             )
-            data = {"is_bookmarked": False, "button_val": post_id}
+            return JsonResponse({"is_bookmarked": False}, status=401)
+
+
+class LikePost(View):
+    """Handle bookmarking post using ajax calls."""
+
+    def post(self, request):
+        user_id = self.request.user.pk
+        post_id = request.POST.get("post_id")
+        if user_id is not None:
+            # the user is authenticated, go to like activity
+            user = Account.objects.get(pk=user_id)
+            post = Post.objects.get(pk=post_id)
+            is_liked = False
+            if not user in post.likers_list:
+                post.likes.add(user)
+                is_liked = True
+            else:
+                post.likes.remove(user)
+
+            data = {"is_liked": is_liked, "button_val": post_id}
+            return JsonResponse(data, status=200)
+        else:
+            messages.info(
+                self.request,
+                "Login to your account to like posts.",
+            )
+            data = {"is_liked": False, "button_val": post_id}
             return JsonResponse(data, status=401)
-
-
-@login_required
-def bookmark_post(request, slug, pk):
-    """Bookmark the post for later reading."""
-    selected_post = get_object_or_404(Post, slug=slug)
-    if Bookmark.objects.filter(id=request.user.pk).exists():
-        Bookmark.objects.delete(user_id=request.user.pk, post_id=selected_post.pk)
-        messages.warning(request, "Removed from saved posts")
-    else:
-        Bookmark.objects.create(user_id=request.user.pk, post_id=selected_post.pk)
-        messages.success(request, "Added to your saved posts.")
-
-    # return HttpResponseRedirect(reverse("blog:post-list"))
