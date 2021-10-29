@@ -51,67 +51,138 @@
 							<span><a href="#">{{ user.profile.following_list|length }} Following</a></span>
 						</p>
 					</div>
+
+
+					<div class="container">
+						<ul class="nav nav-tabs" role="tablist">
+						  <li class="nav-item">
+							<a class="nav-link active" data-toggle="tab" href="#post">Posts</a>
+						  </li>
+						  <li class="nav-item">
+							<a class="nav-link" data-toggle="tab" href="#follower">Followers</a>
+						  </li>
+						  <li class="nav-item">
+							<a class="nav-link" data-toggle="tab" href="#following">Following</a>
+						  </li>
+						</ul>
+					  
+						<!-- Tab panes -->
+						<div class="tab-content">
+						  <div id="post" class="container tab-pane active"><br>
+							<div class="graybg authorpage">
+								<!-- Begin Author Posts
+							  ================================================== -->
+							  <div class="container">
+								  <div class="listrecent listrelated">
+
+								  {% for post in user_posts %}
+								  <div class="authorpostbox">
+									  <div class="card">
+										  <a href="{% url 'blog:post-detail' post.slug %}">
+										  <img class="img-fluid img-thumb" src="{{ post.image.url }}" alt="{{ post.title }}">
+										  </a>
+										  <div class="card-block">
+											  <h2 class="card-title"><a href="{% url 'blog:post-detail' post.slug %}">{{ post.title }}</a></h2>
+											  <h4 class="card-text">{{ post.summary }}</h4>
+											  <div class="metafooter">
+												  <div class="wrapfooter">
+													  <span class="meta-footer-thumb" >
+													  <a href="{% url 'accounts:profile' user.display_name %}"><img class="author-thumb" src="{{ user.profile.avator.url }}" alt="{{ user.display_name }}"></a>
+													  </span>
+													  <span class="author-meta">
+													  <span class="post-name"><a href="{% url 'accounts:profile' user.display_name %}">{{ user.display_name }}</a></span><br/>
+													  <span class="post-date">{{post.date_posted|date:"F d, Y" }}</span><span class="dot"></span><span class="post-read">{{ post.content|readtime }}</span>
+													  </span>
+													  {% if request.user == post.author %}
+													  <span class="post-action">
+														  <a href="{% url 'blog:post-update' post.slug %}"><i class="fas fa-edit fa-lg"></i></a> &nbsp;
+														  <a class="trash-icon" href="{% url 'blog:post-delete' post.slug %}"><i class="fas fa-trash fa-lg"></i></a>
+													  </span>
+													  {% else %}
+													  <span class="post-read-more">
+														  {% csrf_token %}
+														  <button class="bookmark-icon" style="all: unset;cursor: pointer;" value="{{ post.pk }}">
+														  {% if post in saved_posts %}
+															  <i class="fas fa-bookmark fa-lg"></i>
+														  {% else %}
+															  <i class="far fa-bookmark fa-lg"></i>
+														  {% endif %}
+														  </button>
+													  </span>
+													  {% endif %}
+												  </div>
+											  </div>
+										  </div>
+									  </div>
+								  </div>
+								  {% endfor %}
+
+								  </div>
+							  </div>
+							  </div>
+							  <!-- End Author Posts
+							  ================================================== -->
+						  </div>
+						  <div id="follower" class="container tab-pane fade"><br>
+							<div class="container mt-5">
+								<div class="d-flex justify-content-center row">
+									<div class="col-md-6">
+										<div class="p-3 bg-white text-center">
+											{% if user.profile.followers_list %}
+												{% for follower in user.profile.followers_list %}
+												<div class="d-flex flex-row justify-content-between align-items-center mb-2">
+													<div class="d-flex flex-row align-items-center">
+														<a href="{% url 'accounts:profile' follower.display_name %}"><img class="rounded-circle" src="{{ follower.profile.avator.url }}" width="55"></a>
+														<div class="d-flex flex-column align-items-start ml-2">
+															<a href="{% url 'accounts:profile' follower.display_name %}"><span class="font-weight-bold">{{ follower.get_display_name }}</span></a>
+															<span class="followers">{{ follower.profile.followers_list|length }} Followers</span>
+														</div>
+													</div>
+													<div class="d-flex flex-row align-items-center mt-2"><button class="btn btn-primary btn-sm" type="button">Follow</button></div>
+												</div> <hr>
+												{% endfor %}
+											{% else %}
+												<p>No followers yet. Start writing posts.</p>
+											{% endif %}
+										</div>
+									</div>
+								</div>
+							</div>
+						  </div>
+						  <div id="following" class="container tab-pane fade"><br>
+							<div class="container mt-5">
+								<div class="d-flex justify-content-center row">
+									<div class="col-md-6">
+										<div class="p-3 bg-white text-center">
+											{% if user.profile.following_list %}
+												{% for following in user.profile.following_list %}
+												<div class="d-flex flex-row justify-content-between align-items-center mb-2">
+													<div class="d-flex flex-row align-items-center">
+														<a href="{% url 'accounts:profile' following.display_name %}"><img class="rounded-circle" src="{{ following.profile.avator.url }}" width="55"></a>
+														<div class="d-flex flex-column align-items-start ml-2">
+															<a href="{% url 'accounts:profile' following.display_name %}"><span class="font-weight-bold">{{ following.get_display_name }}</span></a>
+															<span class="followers">{{ following.profile.followers_list|length }} Followers</span>
+														</div>
+													</div>
+													<div class="d-flex flex-row align-items-center mt-2"><button class="btn btn-outline-primary btn-sm" type="button">Unfollow</button></div>
+												</div> <hr>
+												{% endfor %}
+											{% else %}
+												<p>You are not following anyone. Watch out this people.</p>
+											{% endif %}
+										</div>
+									</div>
+								</div>
+							</div>
+						  </div>
+						</div>
+					  </div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
 <!-- End Top Author Meta
-================================================== -->
-
-<!-- Begin Author Posts
-================================================== -->
-<div class="graybg authorpage">
-	<div class="container">
-		<div class="listrecent listrelated">
-
-		<!-- begin post -->
-		{% for post in user_posts %}
-		<div class="authorpostbox">
-			<div class="card">
-				<a href="{% url 'blog:post-detail' post.slug %}">
-				<img class="img-fluid img-thumb" src="{{ post.image.url }}" alt="{{ post.title }}">
-				</a>
-				<div class="card-block">
-					<h2 class="card-title"><a href="{% url 'blog:post-detail' post.slug %}">{{ post.title }}</a></h2>
-					<h4 class="card-text">{{ post.summary }}</h4>
-					<div class="metafooter">
-						<div class="wrapfooter">
-							<span class="meta-footer-thumb" >
-							<a href="{% url 'accounts:profile' user.display_name %}"><img class="author-thumb" src="{{ user.profile.avator.url }}" alt="{{ user.display_name }}"></a>
-							</span>
-							<span class="author-meta">
-							<span class="post-name"><a href="{% url 'accounts:profile' user.display_name %}">{{ user.display_name }}</a></span><br/>
-							<span class="post-date">{{post.date_posted|date:"F d, Y" }}</span><span class="dot"></span><span class="post-read">{{ post.content|readtime }}</span>
-							</span>
-							{% if request.user == post.author %}
-							<span class="post-action">
-								<a href="{% url 'blog:post-update' post.slug %}"><i class="fas fa-edit fa-lg"></i></a> &nbsp;
-								<a class="trash-icon" href="{% url 'blog:post-delete' post.slug %}"><i class="fas fa-trash fa-lg"></i></a>
-							</span>
-							{% else %}
-							<span class="post-read-more">
-								{% csrf_token %}
-								<button class="bookmark-icon" style="all: unset;cursor: pointer;" value="{{ post.pk }}">
-								{% if post in saved_posts %}
-									<i class="fas fa-bookmark fa-lg"></i>
-								{% else %}
-									<i class="far fa-bookmark fa-lg"></i>
-								{% endif %}
-								</button>
-							</span>
-							{% endif %}
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		{% endfor %}
-				<!-- end post -->
-		</div>
-	</div>
-</div>
-<!-- End Author Posts
 ================================================== -->
 
 {% include "footer.html" %}

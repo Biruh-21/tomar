@@ -65,7 +65,7 @@ def update_profile(request, display_name):
     return render(request, "accounts/profile_update_form.html", context)
 
 
-class UserPostListView(ListView):
+class UserProfileView(ListView):
     """Show profile of the user and all posts posted by the user."""
 
     context_object_name = "user_posts"
