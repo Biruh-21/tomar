@@ -46,9 +46,9 @@
 							<img class="author-thumb" src="{{ user.profile.avator.url }}" alt="{{ user.display_name }}">
 						</p>
 						<p class="text-small text-center text-primary">
-							<span><a href="#">{{ user.profile.followers_list|length }} Followers</a></span>
+							<span><strong>{{ user.profile.followers_list|length }}</strong> Followers</span>
 							<span class="dot"></span>
-							<span><a href="#">{{ user.profile.following_list|length }} Following</a></span>
+							<span><strong>{{ user.profile.following_list|length }}</strong> Following</span>
 						</p>
 					</div>
 
@@ -124,11 +124,12 @@
 							  ================================================== -->
 						  </div>
 						  <div id="follower" class="container tab-pane fade"><br>
-							<div class="container mt-5">
-								<div class="d-flex justify-content-center row">
-									<div class="col-md-6">
-										<div class="p-3 bg-white text-center">
+							<div class="container mt-3">
+								<div class="d-flex justify-content-start row" >
+									<div class="col-lg-8" >
+										<div class="bg-white text-center">
 											{% if user.profile.followers_list %}
+												<!-- <hr> -->
 												{% for follower in user.profile.followers_list %}
 												<div class="d-flex flex-row justify-content-between align-items-center mb-2">
 													<div class="d-flex flex-row align-items-center">
@@ -138,11 +139,21 @@
 															<span class="followers">{{ follower.profile.followers_list|length }} Followers</span>
 														</div>
 													</div>
-													<div class="d-flex flex-row align-items-center mt-2"><button class="btn btn-primary btn-sm" type="button">Follow</button></div>
+													<div class="d-flex flex-row align-items-center mt-2">
+														{% if request.user in follower.profile.followers_list %}
+															<button class="btn btn-outline-primary follow follow-btn" value="{{ follower.pk }}" style="cursor: pointer;">Following</button>
+														{% else %}
+															<button class="btn btn-primary follow follow-btn" value="{{ follower.pk }}" style="cursor: pointer;">Follow</button>
+														{% endif %}
+													</div>
 												</div> <hr>
 												{% endfor %}
 											{% else %}
-												<p>No followers yet. Start writing posts.</p>
+												{% if request.user == user %}
+													<p>You don't have any followers yet.</p>
+												{% else %}
+													<p>{{ user.get_display_name }} has no followers yet.</p>
+												{% endif %}
 											{% endif %}
 										</div>
 									</div>
@@ -150,11 +161,12 @@
 							</div>
 						  </div>
 						  <div id="following" class="container tab-pane fade"><br>
-							<div class="container mt-5">
-								<div class="d-flex justify-content-center row">
-									<div class="col-md-6">
-										<div class="p-3 bg-white text-center">
+							<div class="container mt-3">
+								<div class="d-flex justify-content-start row">
+									<div class="col-lg-8">
+										<div class="bg-white text-center">
 											{% if user.profile.following_list %}
+												<!-- <hr> -->
 												{% for following in user.profile.following_list %}
 												<div class="d-flex flex-row justify-content-between align-items-center mb-2">
 													<div class="d-flex flex-row align-items-center">
@@ -164,11 +176,21 @@
 															<span class="followers">{{ following.profile.followers_list|length }} Followers</span>
 														</div>
 													</div>
-													<div class="d-flex flex-row align-items-center mt-2"><button class="btn btn-outline-primary btn-sm" type="button">Unfollow</button></div>
+													<div class="d-flex flex-row align-items-center mt-2">
+														{% if request.user in following.profile.followers_list %}
+															<button class="btn btn-outline-primary follow follow-btn" value="{{ following.pk }}" style="cursor: pointer;">Following</button>
+														{% else %}
+															<button class="btn btn-primary follow follow-btn" value="{{ following.pk }}" style="cursor: pointer;">Follow</button>
+														{% endif %}
+													</div>
 												</div> <hr>
 												{% endfor %}
 											{% else %}
-												<p>You are not following anyone. Watch out this people.</p>
+												{% if request.user == user %}
+													<p>You aren't following anybody.</p>
+												{% else %}
+													<p>{{ user.get_display_name }} isn't following anybody.</p>
+												{% endif %}
 											{% endif %}
 										</div>
 									</div>
