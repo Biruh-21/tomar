@@ -1,13 +1,19 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, tokens
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import EmailMessage
 from django.urls import reverse
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.template.loader import render_to_string
+from django.utils.encoding import force_bytes, force_str
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic import ListView
 from django.views.generic.base import View
 
+from .tokens import email_confirmation_token
 from .forms import SignupForm, UserUpdateForm, ProfileUpdateForm
 from .models import Account, Profile
 from blog.models import Post
@@ -20,18 +26,39 @@ def signup(request):
         # the user has submitted the form (POST request): get the data submitted
         signup_form = SignupForm(request.POST)
         if signup_form.is_valid():
-            signup_form.save()
-            messages.success(request, "Your have successfully signed up for Tomar.com.")
-            messages.success(
-                request, "You can now write posts and share your idea to the world."
+            user = signup_form.save(commit=False)
+            user.is_active = False  # until the user confirms the email
+            user.save()
+            current_site = get_current_site(request)
+            mail_subject = "Tomar: Confirm your email address"
+            message = render_to_string(
+                "accounts/confirm_email.html",
+                {
+                    "user": user,
+                    "domain": current_site.domain,
+                    "uid": urlsafe_base64_encode(force_bytes(user.pk)),
+                    "token": email_confirmation_token.make_token(user),
+                },
             )
-            # Automatically log the user in
-            user = authenticate(
+            to_email = signup_form.cleaned_data.get("email")
+            email = EmailMessage(mail_subject, message, to=[to_email])
+            email.send()
+
+            messages.info(
                 request,
-                email=signup_form.cleaned_data["email"],
-                password=signup_form.cleaned_data["password1"],
+                "Please confirm your email address to complete the registration.",
             )
-            login(request, user)
+            messages.info(
+                request,
+                "Confirmation link has been sent to the email address you provide.",
+            )
+            # # Automatically log the user in
+            # user = authenticate(
+            #     request,
+            #     email=signup_form.cleaned_data["email"],
+            #     password=signup_form.cleaned_data["password1"],
+            # )
+            # login(request, user)
             return redirect("blog:post-list")
     else:
         # it is GET request: display an empty signup form
@@ -39,6 +66,27 @@ def signup(request):
 
     context = {"signup_form": signup_form}
     return render(request, "accounts/signup.html", context)
+
+
+def activate(request, uidb64, token):
+    """Activate the user account after the confirms their email address."""
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = Account.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, Account.DoesNotExist):
+        user = None
+
+    if user is not None and email_confirmation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        login(request, user)
+        messages.success(request, "Your email has been verified successfully.")
+        messages.success(
+            request, "You can now write posts and share your idea to the world."
+        )
+        return redirect("blog:post-list")
+    else:
+        return HttpResponse("Confirmation link is invalid.")
 
 
 @login_required

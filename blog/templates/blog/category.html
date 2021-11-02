@@ -10,8 +10,8 @@
 <div class="graybg authorpage">
 	<div class="container">
 		<div class="listrecent listrelated">
-
 		<!-- begin post -->
+		<h3 class="col-lg-8 mx-auto mb-5">{{ category_posts.0.category.name }} ({{ category_posts|length }}) </h3>
 		{% for post in category_posts %}
 		<div class="authorpostbox">
 			<div class="card">
@@ -24,10 +24,10 @@
 					<div class="metafooter">
 						<div class="wrapfooter">
 							<span class="meta-footer-thumb" >
-							<a href="{% url 'accounts:profile' user.display_name %}"><img class="author-thumb" src="{{ user.profile.avator.url }}" alt="{{ user.display_name }}"></a>
+							<a href="{% url 'accounts:profile' post.author.display_name %}"><img class="author-thumb" src="{{ post.author.profile.avator.url }}" alt="{{ post.author.display_name }}"></a>
 							</span>
 							<span class="author-meta">
-							<span class="post-name"><a href="{% url 'accounts:profile' user.display_name %}">{{ user.display_name }}</a></span><br/>
+							<span class="post-name"><a href="{% url 'accounts:profile' post.author.display_name %}">{{ post.author.get_display_name }}</a></span><br/>
 							<span class="post-date">{{post.date_posted|date:"F d, Y" }}</span><span class="dot"></span><span class="post-read">{{ post.content|readtime }}</span>
 							</span>
 							{% if request.user == post.author %}
