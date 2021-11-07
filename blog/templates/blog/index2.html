@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% load static %}
+{% load post_read_time %}
+
+{% block title %} Tomar - Home {% endblock %}
+
+{% block main %}
+<!-- Begin Site Title
+================================================== -->
+<div class="container">
+
+	{% if messages %}
+		{% for message in messages %}
+			<div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert" id="msg">
+			{{ message }}
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			</div>
+		{% endfor %}
+	{% endif %}
+
+	<div class="mainheading">
+		<h1 class="sitetitle">Tomar</h1>
+		<p class="lead">
+			A place to read, write, and connect with others.
+		</p>
+	</div>
+<!-- End Site Title
+================================================== -->
+
+	<!-- Begin Featured
+	================================================== -->
+	<section class="featured-posts">
+	<div class="section-title">
+		<h2><span>Featured</span></h2>
+	</div>
+	<div class="card-columns listfeaturedtag">
+
+		<!-- begin post -->
+		{% for post in featured_posts %}
+		<div class="card">
+			<div class="row">
+				<div class="col-md-5 wrapthumbnail">
+					<a href="{% url 'blog:post-detail' post.slug %}">
+						<div class="thumbnail" style="background-image:url('{{ post.image.url }}');"></div>
+					</a>
+				</div>
+				<div class="col-md-7">
+					<div class="card-block">
+						<h2 class="card-title"><a href="{% url 'blog:post-detail' post.slug %}">{{ post.title }}</a></h2>
+						<h4 class="card-text">{{ post.content|truncatechars_html:120|safe }}</h4>
+						<div class="metafooter">
+							<div class="wrapfooter">
+								<span class="meta-footer-thumb">
+								<a href="{% url 'accounts:profile' post.author.display_name %}"><img class="author-thumb" src="{{ post.author.profile.avator.url }}" alt="{{ post.author.display_name }}"></a>
+								</span>
+								<span class="author-meta">
+								<span class="post-name">
+								<a href="{% url 'accounts:profile' post.author.display_name %}">{{ post.author.get_display_name }}</a>
+								</span><br/>
+								<span class="post-date">{{post.date_posted|date:"F d, Y" }}</span><span class="dot"></span><span class="post-read">{{ post.content|readtime }}</span>
+								</span>
+								<span class="post-read-more">
+									{% csrf_token %}
+									<button class="bookmark-icon" style="all: unset;cursor: pointer; color:rgba(0,0,0,.44);" value="{{ post.pk }}">
+									{% if post in saved_posts %}
+										<i class="fas fa-bookmark fa-lg"></i>
+									{% else %}
+										<i class="far fa-bookmark fa-lg"></i>
+									{% endif %}
+									</button>
+								</span>
+							</div>
+						</div>
+					</div> 
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+		<!-- end post -->
+
+	</div>
+	</section>
+	<!-- End Featured
+	================================================== -->
+
+	<!-- Begin List Posts
+	================================================== -->
+	<section class="recent-posts">
+	<div class="section-title">
+		<h2><span>All Stories</span></h2>
+	</div>
+	<div class="card-columns listrecent letstry">
+
+		<!-- begin post -->
+		{% for post in all_posts %}
+		<div class="card">
+			<a href="#">
+				<img class="img-fluid" src="{{ post.image.url }}" alt="{{ post.title }}">
+			</a>
+			<div class="card-block">
+				<h2 class="card-title"><a href="#">{{ post.title }}</a></h2>
+				<h4 class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</h4>
+				<div class="metafooter">
+					<div class="wrapfooter">
+						<span class="meta-footer-thumb">
+						<a href="#"><img class="author-thumb" src="{{ post.author.profile.avator.url }}" alt="{{ post.author.display_name }}"></a>
+						</span>
+						<span class="author-meta">
+						<span class="post-name"><a href="#">{{ post.author.display_name }}</a></span><br/>
+						<span class="post-date">{{post.date_posted|date:"F d, Y" }}</span><span class="dot"></span><span class="post-read">{{ post.content|readtime }}</span>
+						</span>
+						<span class="post-read-more"><a href="#" title="Read Story"><svg class="svgIcon-use" width="25" height="25" viewbox="0 0 25 25"><path d="M19 6c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v14.66h.012c.01.103.045.204.12.285a.5.5 0 0 0 .706.03L12.5 16.85l5.662 4.126a.508.508 0 0 0 .708-.03.5.5 0 0 0 .118-.285H19V6zm-6.838 9.97L7 19.636V6c0-.55.45-1 1-1h9c.55 0 1 .45 1 1v13.637l-5.162-3.668a.49.49 0 0 0-.676 0z" fill-rule="evenodd"></path></svg></a></span>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+		<!-- end post -->
+
+	</div>
+	</section>
+	<!-- End List Posts
+	================================================== -->
+
+</div>
+<!-- /.container -->
+{% include "footer.html" %}
+
+{% block page_js %}
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script>
+		setTimeout(function(){
+		if ($('#msg').length > 0) {
+			$('#msg').remove();
+		}
+		}, 5000)
+	</script>
+	<script src="{% static 'blog/scripts/main.js' %}"></script>
+{% endblock %}
+
+{% endblock %}

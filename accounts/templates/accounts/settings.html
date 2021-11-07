@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block page_css %}
+    <link rel="stylesheet" href="{% static 'styles/settings.css' %}"/>
+{% endblock %}
+{% block title %} Settings {% endblock %}
+
+{% block main %}
+
+{% include "navbar.html" %}   
+
+<section class="registersection">
+    <!-- <div class="d-flex align-items-start mainwindow">
+        <div class="nav flex-column nav-pill me-3 leftsidebar" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+          <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">Home</button>
+          <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">Profile</button>
+          <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">Messages</button>
+          <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</button>
+        </div>
+        <div class="tab-content" id="v-pills-tabContent">
+            <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                Good Afternoon!
+            </div>
+          <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">...</div>
+          <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">...</div>
+          <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">...</div>
+        </div>
+      </div> -->
+    <div class="tabs">
+        <div class="tabheader">
+            <button class="active">Update profile</button>
+            <button>Change password</button>
+            <button>Manage settings</button>
+            <button>Login activity</button>
+        </div>
+        <div class="tabcontent">
+            <div class="onecontent active">
+                <div>
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <fieldset class="form-group">
+                            <!-- <legend class="mb-4">Profile Info</legend> -->
+                            {{ user_form|crispy }}
+                            {{ profile_form|crispy }}
+                        </fieldset>
+                        <div class="d-grid">
+                            <button class="btn btn-primary mr-2" type="submit"> Save Changes </button>                    
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="onecontent">
+                <p>I love you lorem ipsuum dolor sit amet whatI love you lorem ipsuum dolor sit amet whatI love you lorem ipsuum dolor sit amet whatI love you lorem ipsuum dolor sit amet what</p>
+            </div>
+            <div class="onecontent">
+                <p>I love you lorem ipsuum dolor sit amet whatI love you lorem ipsuum dolor sit amet whatI love you lorem ipsuum dolor sit amet whatI love you lorem ipsuum dolor sit amet what</p>
+            </div>
+            <div class="onecontent">
+                <p>I love you lorem ipsuum dolor sit amet whatI love you lorem ipsuum dolor sit amet whatI love you lorem ipsuum dolor sit amet whatI love you lorem ipsuum dolor sit amet what</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include "footer.html" %}
+
+<script>
+    let tabHeader = document.querySelectorAll(".tabs .tabheader button");
+    let tabContent = document.querySelectorAll(".tabs .tabcontent .onecontent");
+
+    for(let i=0;i<tabHeader.length;i++){
+        tabHeader[i].addEventListener("click",function(){
+            document.querySelector(".tabs .tabheader .active").classList.remove("active");
+            tabHeader[i].classList.add("active");
+            document.querySelector(".tabs .tabcontent .active").classList.remove("active");
+            tabContent[i].classList.add("active");
+        });
+    }
+
+
+    /* When the user  clicks on the button,
+    toggle between hiding and showing the dropdown content */
+    function myFunction() {
+    document.getElementById("myDropdown").classList.toggle("show");
+    }
+    // Close the dropdown menu if the user clicks outside of it
+    window.onclick = function(event) {
+    if (!event.target.matches('.dropbtn')) {
+        
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
+            }
+        }
+    }
+    }
+</script>
+{% endblock %}

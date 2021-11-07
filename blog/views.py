@@ -28,17 +28,23 @@ def index(request):
     all_posts = Post.objects.all()[4:]
     if request.user.pk is not None:
         user = Account.objects.get(id=request.user.pk)
-        # bookmarks = Bookmark.objects.filter(user=user)
         saved_posts = [post for post in user.bookmarks.all()]
+        user_feed = Post.objects.all()
     else:
         saved_posts = []
+        user_feed = []
 
-    context = {
-        "featured_posts": featured_posts,
-        "all_posts": all_posts,
-        "saved_posts": saved_posts,
-    }
-    return render(request, "blog/index.html", context)
+    if request.user.pk is not None:
+        context = {
+            "user_feed": user_feed,
+            "saved_posts": saved_posts,
+        }
+        return render(request, "blog/index.html", context)
+    else:
+        context = {
+            "featured_posts": featured_posts,
+        }
+        return render(request, "blog/landing-page.html", context)
 
 
 class PostDetailView(DetailView):
@@ -46,6 +52,7 @@ class PostDetailView(DetailView):
 
     model = Post
     context_object_name = "post"
+    template_name = "blog/post_detail.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

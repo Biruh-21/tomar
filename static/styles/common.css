@@ -1,0 +1,28 @@
+.signupbtn{
+    width: 114px;
+    height: 50px;
+    background: linear-gradient(-90deg, #00B9FF,#0099FF);
+    color: white;
+    border: 0;
+    border-radius: 5px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin-left: 20px;
+}
+.loginbtn{
+    width: 100px;
+    height: 50px;
+    background: white;
+    color: #00B9FF;
+    border: 2px solid #00B9FF;
+    border-radius: 5px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.logo{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+    color: black;
+    font-size: 36px;
+}
+.logospan{
+    color: #00A8FF;
+}

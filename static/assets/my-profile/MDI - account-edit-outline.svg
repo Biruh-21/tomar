@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48.533" height="48.533" viewBox="0 0 48.533 48.533">
+  <g id="MDI_account-edit-outline" data-name="MDI / account-edit-outline" opacity="0.6">
+    <g id="Boundary" stroke="rgba(0,0,0,0)" stroke-width="1" opacity="0">
+      <rect width="48.533" height="48.533" stroke="none"/>
+      <rect x="0.5" y="0.5" width="47.533" height="47.533" fill="none"/>
+    </g>
+    <path id="Path_account-edit-outline" data-name="Path / account-edit-outline" d="M2,30.289v6.067H18.178V32.533H5.842V30.289c0-1.294,6.33-4.247,12.336-4.247a23.648,23.648,0,0,1,5.723.768l3.074-3.074a29.339,29.339,0,0,0-8.8-1.537C12.778,22.2,2,24.889,2,30.289M18.178,4a8.089,8.089,0,1,0,8.089,8.089A8.087,8.087,0,0,0,18.178,4m0,12.133a4.044,4.044,0,1,1,4.044-4.044,4.043,4.043,0,0,1-4.044,4.044m23.66,6.774L39.815,24.93,35.67,20.886l2.022-2.022a1.111,1.111,0,0,1,1.557,0l2.588,2.588a1.111,1.111,0,0,1,0,1.557m-19.616,11.2L34.477,21.957,38.622,26,26.489,38.277H22.222V34.212" transform="translate(2.044 4.089)"/>
+  </g>
+</svg>

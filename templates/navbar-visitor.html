@@ -1,0 +1,33 @@
+{% load static %}
+
+<nav class="navbar navbar-expand-sm">
+    <div class="container">
+        <a href="{% url 'blog:post-list' %}" class="navbar-brand logo"><span class="logospan"></span> Tomar</a>
+
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navmenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navmenu">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a href="{% url 'accounts:login' %}">
+                        <button class="loginbtn">
+                            Login
+                        </button>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'accounts:signup'%}">
+                        <button class="signupbtn">
+                            Sign up
+                        </button>
+                    </a>
+                </li>
+            </ul>
+        </div>            
+    </div>
+</nav>

@@ -24,9 +24,9 @@
           <p class="mb-5">Are you sure you want to delete this post: <strong>"{{ post.title }}"</strong>?</p>
           <br>
           <form method="POST"> {% csrf_token %} 
-            <div class="d-grid">
+            <div>
               <button class="btn btn-danger" type="submit">Yes, Delete </button>
-              <a class="btn btn-outline-primary" href="{% url 'blog:post-detail' post.slug %}">Cancel </a>
+              <a class="btn btn-secondary" href="{% url 'blog:post-detail' post.slug %}">Cancel </a>
             </div>
           </form>
         </div>

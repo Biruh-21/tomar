@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+{% load static %}
+{% block page_css %}
+    <link rel="stylesheet" href="{% static 'styles/landing-page.css' %}">
+{% endblock %}
+{% block title %} Tomar {% endblock %}
+
+{% block main %}
+    <!-- the nav bar section for a user who didn't signin -->
+    {% include "navbar-visitor.html" %}
+
+    <!-- the hero of our landing page -->
+    <section class="container">
+        <div class="herocontainer d-sm-flex">
+            <div class="herointro">
+                <p>My Experience Blog</p>
+                <h1 class="heroheadline">
+                    The best bloggers' site ever exist...
+                </h1>
+                <p class="herodesc">Far far away, behind the word mountains, far from the
+                    countries Vokalia and Consonantia, there live the blind 
+                    texts. Separated they live in Bookmarksgrove right at 
+                    the coast of the Semantics.
+                </p>
+                <span class="heroline"></span>
+                <div class="herosearchbar">
+                    <img src="{% static 'assets/Icon awesome-search.svg' %}" alt="">
+                    <input type="search" placeholder="Search blogs..." class="herosearchbox">
+                    <button class="btn herosearchbtn">Search</button>
+                </div>
+            </div>
+            <img src="{% static 'assets/Group 132.svg' %}" alt="">
+        </div> 
+    </section>
+
+    <!-- the popular blog template for a guest user -->
+    <section class="popularblogs container">
+        <h2 class="blogtemplateintro">Here's where you can find our most <span class="strongcolor">popular</span> blog posts.</h2>
+        {% for post in featured_posts %}
+        <div class="popblogflex">
+            <div class="oneblogtemplate">
+                <div class="upperblogsection">
+                    <div class="profilebox">
+                        <div class="profile">
+                            <div class="profileimage">
+                                <img src="{% static 'assets/michael-dam-mEZ3PoFGs_k-unsplash.jpg' %}" alt="">
+                            </div>
+                            <span class="username">John Doe</span>
+                        </div>
+                        <div class="profilebuttons">
+                            <img src="{% static 'assets/bookmark-plus.svg' %}" class="firstbutton" alt="">
+                            <img src="{% static 'assets/Path 3.svg' %}" alt="">
+                        </div>
+                    </div>
+                    <img src="{{ post.image.url }}" class="imagebox" alt="">
+                    
+                </div>
+                <div class="lowerblogsection">
+                    <div class="blogtitle">
+                        <a href="{% url 'blog:post-detail' post.slug %}">{{ post.title }}</a>
+                    </div>
+                    <!-- <div class="summarizedcontent">
+                        {{ post.content|truncatechars_html:100|safe }}
+                    </div> -->
+                    <div class="blogfooter">
+                        <div class="leftfooter">
+                            <span>Nov 7</span>
+                            <span>3 min read</span>
+                            <div class="categorybackground">
+                                <span>Programming</span>
+                            </div>
+                            <div class="numberofviews">
+                                <img src="{% static 'assets/eye.svg' %}" alt="">
+                                <span>423</span>
+                            </div>
+                        </div>
+                        <div class="rightfooter">
+                            <img src="{% static 'assets/Path 144.svg' %}" class="likesbackground" alt="">
+                            <div class="likescontainer">
+                                <img src="{% static 'assets/Icon feather-thumbs-up.svg' %}" class="likebtn" alt="">
+                                <span class="likenumbers">423</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        
+    </section>
+
+    <!-- the load more button -->
+    <button class="loadmorebtn">
+        Load more
+    </button>
+    <!-- what you could do with us -->
+    <h2 class="blogtemplateintro">What you could do <br>with <span class="strongcolor">us</span>!?</h2>
+    <section class="container mb-5 threecards">
+        <div class="onecard">
+            <div class="uppercard">
+                <img src="{% static 'assets/post article.svg' %}" alt="">
+            </div>
+            <div class="lowercard">
+                <h3>Post articles</h3>
+                <span class="underline"></span>
+                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore.</p>
+                
+            </div>
+            <div class="colorbackground">
+
+            </div>
+        </div>
+        <div class="onecard">
+            <div class="uppercard">
+                <img src="{% static 'assets/undraw_Reading_re_29f8.svg' %}" alt="">
+            </div>
+            <div class="lowercard">
+                <h3>Read articles</h3>
+                <span class="underline"></span>
+                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore.</p>
+                
+            </div>
+            <div class="colorbackground">
+
+            </div>
+        </div>
+        <div class="onecard">
+            <div class="uppercard">
+                <img src="{% static 'assets/undraw_Sharing_articles_re_jnkp.svg' %}" alt="">
+            </div>
+            <div class="lowercard">
+                <h3>Share articles</h3>
+                <span class="underline"></span>
+                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore.</p>
+                
+            </div>
+            <div class="colorbackground">
+
+            </div>
+        </div>
+    </section>
+
+    {% include "footer.html" %}
+{% endblock %}

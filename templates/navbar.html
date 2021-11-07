@@ -1,53 +1,61 @@
 {% load static %}
 
-<!-- Begin Nav
-================================================== -->
-<nav class="navbar navbar-toggleable-md navbar-light bg-white mb-3 mediumnavigation">
-    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-    </button>
+<nav class="navbar navbar-expand-sm fixed-top">
     <div class="container">
-        <!-- Begin Logo -->
-        <a class="navbar-brand" href="{% url 'blog:post-list' %}">
-        <!-- <img src="{% static 'images/logo.png' %}" alt="logo"> -->
-        Tomar
-        </a>
-        <!-- End Logo -->
-        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-            <!-- Begin Menu -->
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                <a class="nav-link" href="{% url 'blog:post-list' %}">Stories <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="{% url 'blog:post-create' %}">Write</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="#">Author</a>
-                </li>
+        <a href="{% url 'blog:post-list' %}" class="navbar-brand logo"><img src="{% static 'assets/icons/Layer 2.svg' %}" alt=""></a>
 
-                {% if not request.user.is_authenticated %}
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navmenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navmenu">
+            <ul class="navbar-nav ms-auto ulflex">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'accounts:login' %}">Sign in</a>
+                    <form action="#">
+                        <div class="searchboxcontainer">
+                            <input type="search" id="search" class="searchbox" placeholder="Search blogs...">
+                            <button type="submit" class="searchbtn">
+                                <img src="{% static 'assets/icons/Icon awesome-search.svg' %}"></img>
+                            </button>
+                        </div>
+                    </form>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link btn subscribe btn-primary" id="cta" href="{% url 'accounts:signup' %}">Get Started</a>
-                </li>
-                {% else %}
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img class="rounded-circle" src="{{ request.user.profile.avator.url }}" alt="{{ request.user.display_name }}" width="25px" height="25px" >
+                    <a href="{% url 'blog:post-create' %}">
+                        <div class="addarticlebtn">
+                            <img src="{% static 'assets/icons/Group 95.svg' %}"></img>
+                        </div>
+                        
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <li><a class="dropdown-item" href="{% url 'accounts:saved' request.user.display_name %}">Saved</a></li>
-                        <li><a class="dropdown-item" href="{% url 'accounts:profile' request.user.display_name %}">Profile</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="{% url 'accounts:logout' %}">Sign out</a></li>
+                </li>
+                <li class="nav-item">
+                    <ul class="ulflexinner">
+                        <li><a href="message.html">
+                            <img src="{% static 'assets/icons/MDI - chat-processing-outline.svg' %}" class="icon1 position-relative"></img>
+                        </a></li>
+                        <li><a href="{% url 'accounts:saved' user.display_name %}">
+                            <img src="{% static 'assets/icons/MDI - bookmark-multiple-outline.svg' %}" class="icon2"></img>
+                        </a></li>
+                        <li><a href="notification.html">
+                            <img src="{% static 'assets/icons/MDI - bell-outline.svg' %}" class="icon3"></img>
+                        </a></li>
                     </ul>
-                  </li>
-                {% endif %}
+                </li>
+                <li class="nav-item">
+                    <div class="dropdown">
+                        <a  onclick="myFunction()"><img src="{% static 'assets/Ellipse 12@2x.png' %}" class="profileimg dropbtn"></img></a>
+                        <div class="dropdown-content" id="myDropdown">
+                          <a href="{% url 'accounts:profile' user.display_name %}"><img src="{% static 'assets/icons/MDI - account-outline.svg' %}" alt=""> Profile</a>
+                          <a href="{% url 'accounts:saved' user.display_name %}"><img src="{% static 'assets/icons/MDI - bookmark-multiple-outline.svg' %}" alt=""> Saved</a>
+                          <a href="{% url 'accounts:settings' user.display_name %}"><img src="{% static 'assets/icons/MDI - cog-outline.svg' %}" alt=""> Settings</a>
+                          <a href="{% url 'accounts:logout' %}">Sign out</a>
+                        </div>
+                      </div>
+                </li>
             </ul>
-        </div>
+        </div>            
     </div>
 </nav>
-<!-- End Nav -->

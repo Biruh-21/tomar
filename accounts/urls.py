@@ -25,4 +25,5 @@ urlpatterns = [
     path("<str:display_name>/saved/", views.SavedPostListView.as_view(), name="saved"),
     path("<str:display_name>/about/", views.about_user, name="about-user"),
     path("<str:display_name>/update/", views.update_profile, name="profile-update"),
+    path("<str:display_name>/settings/", views.settings, name="settings"),
 ]

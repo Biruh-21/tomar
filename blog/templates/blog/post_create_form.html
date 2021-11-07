@@ -6,6 +6,7 @@
 
 {% block page_css %}
   <link rel="stylesheet" href="{% static 'accounts/styles/main.css' %}" />
+  <link rel="stylesheet" href="{% static 'styles/auth-user-landing-page.css' %}"/>
   <style>
     body {
       background: #ebebeb;
@@ -14,9 +15,12 @@
 {% endblock %} 
 
 {% block main %}
-<div class="container">
+
+{% include "navbar.html" %}
+
+<div class="mt-5 container">
   <div class="row">
-    <div class="col-sm-12 col-md-12 col-lg-8 mx-auto">
+    <div class="col-sm-12 col-md-12 col-lg-7 mx-auto">
       <div class="card border-0 shadow rounded-3 my-5">
         <div class="card-body p-4 p-sm-5" style="box-shadow: 0 0 10px rgba(71, 71, 71, 0.4);">
           <h5 class="card-title text-center mb-4 fw-light fs-5">Share you ideas to the world</h5>
@@ -24,7 +28,7 @@
             {{ form.media}} 
             {{ form|crispy }}
 
-            <div class="d-grid">
+            <div>
               <button class="btn btn-primary mr-2" type="submit">Add New Post</button>
               <a class="btn btn-secondary" href="{% url 'blog:post-list' %}">Cancel </a>
             </div>
@@ -34,8 +38,28 @@
     </div>
   </div>
 </div>
-{% endblock %}
 
-{% block footer %}
-  {% include "footer.html" %}
+<script>
+    
+  /* When the user  clicks on the button,
+  toggle between hiding and showing the dropdown content */
+  function myFunction() {
+  document.getElementById("myDropdown").classList.toggle("show");
+  }
+  // Close the dropdown menu if the user clicks outside of it
+  window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+      // alert('you cllicked ot.');
+      console.log('still good')
+      var dropdowns = document.getElementsByClassName("dropdown-content");
+      var i;
+      for (i = 0; i < dropdowns.length; i++) {
+          var openDropdown = dropdowns[i];
+          if (openDropdown.classList.contains('show')) {
+              openDropdown.classList.remove('show');
+          }
+      }
+  }
+  }
+</script>
 {% endblock %}

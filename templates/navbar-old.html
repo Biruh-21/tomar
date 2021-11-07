@@ -1,0 +1,53 @@
+{% load static %}
+
+<!-- Begin Nav
+================================================== -->
+<nav class="navbar navbar-toggleable-md navbar-light bg-white mb-3 mediumnavigation">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="container">
+        <!-- Begin Logo -->
+        <a class="navbar-brand" href="{% url 'blog:post-list' %}">
+        <!-- <img src="{% static 'images/logo.png' %}" alt="logo"> -->
+        Tomar
+        </a>
+        <!-- End Logo -->
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <!-- Begin Menu -->
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                <a class="nav-link" href="{% url 'blog:post-list' %}">Stories <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="{% url 'blog:post-create' %}">Write</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="#">Author</a>
+                </li>
+
+                {% if not request.user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'accounts:login' %}">Sign in</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn subscribe btn-primary" id="cta" href="{% url 'accounts:signup' %}">Get Started</a>
+                </li>
+                {% else %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img class="rounded-circle" src="{{ request.user.profile.avator.url }}" alt="{{ request.user.display_name }}" width="25px" height="25px" >
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item" href="{% url 'accounts:saved' request.user.display_name %}">Saved</a></li>
+                        <li><a class="dropdown-item" href="{% url 'accounts:profile' request.user.display_name %}">Profile</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{% url 'accounts:logout' %}">Sign out</a></li>
+                    </ul>
+                  </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- End Nav -->

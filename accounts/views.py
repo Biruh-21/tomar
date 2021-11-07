@@ -110,14 +110,14 @@ def update_profile(request, display_name):
         "user_form": user_form,
         "profile_form": profile_form,
     }
-    return render(request, "accounts/profile_update_form.html", context)
+    return render(request, "accounts/settings.html", context)
 
 
 class UserProfileView(ListView):
     """Show profile of the user and all posts posted by the user."""
 
     context_object_name = "user_posts"
-    template_name = "accounts/user_profile.html"
+    template_name = "accounts/my-profile.html"
 
     def get_queryset(self):
         # Filtering posts by the user only
@@ -137,7 +137,7 @@ class SavedPostListView(LoginRequiredMixin, ListView):
 
     model = Account
     context_object_name = "saved_posts"
-    template_name = "blog/saved_posts.html"
+    template_name = "accounts/saved_posts.html"
 
     def get_queryset(self):
         user = Account.objects.get(id=self.request.user.pk)
@@ -173,3 +173,26 @@ def about_user(request, display_name):
     """Show about of the user."""
     user = Account.objects.get(display_name=display_name)
     return render(request, "accounts/about_user.html", {"user": user})
+
+
+@login_required
+def settings(request, display_name):
+    if request.method == "POST":
+        user_form = UserUpdateForm(request.POST, instance=request.user)
+        profile_form = ProfileUpdateForm(
+            request.POST, request.FILES, instance=request.user.profile
+        )
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, "Your account has been updated successfully.")
+            return redirect(to=reverse("accounts:profile", args=(display_name,)))
+    else:
+        user_form = UserUpdateForm(instance=request.user)
+        profile_form = ProfileUpdateForm(instance=request.user.profile)
+
+    context = {
+        "user_form": user_form,
+        "profile_form": profile_form,
+    }
+    return render(request, "accounts/settings.html", context)

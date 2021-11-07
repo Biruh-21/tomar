@@ -2,142 +2,152 @@
 {% load static %}
 {% load post_read_time %}
 
-{% block title %} Tomar - Home {% endblock %}
+{% block page_css %}
+    <link rel="stylesheet" href="{% static 'styles/auth-user-landing-page.css' %}"/>
+{% endblock %}
+{% block title %} Tomar {% endblock %}
 
 {% block main %}
-<!-- Begin Site Title
-================================================== -->
-<div class="container">
 
-	{% if messages %}
-		{% for message in messages %}
-			<div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert" id="msg">
-			{{ message }}
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-			</button>
-			</div>
-		{% endfor %}
-	{% endif %}
+{% include "navbar.html" %}   
 
-	<div class="mainheading">
-		<h1 class="sitetitle">Tomar</h1>
-		<p class="lead">
-			A place to read, write, and connect with others.
-		</p>
-	</div>
-<!-- End Site Title
-================================================== -->
+<section class="container screen">
+    <div class="row pt-4">
+        <div class="col-1"></div>
+        <div class="col-7 maincontent">
+            <div class="following">
+                <div class="onefollowing">
 
-	<!-- Begin Featured
-	================================================== -->
-	<section class="featured-posts">
-	<div class="section-title">
-		<h2><span>Featured</span></h2>
-	</div>
-	<div class="card-columns listfeaturedtag">
+                </div>
+            </div>
+            <div class="bloglists">
+                {% for post in user_feed %}
+                <div class="oneblog">
+                    <div class="imageside">
+                        <div class="profilebox">
+                            <div class="profile">
+                                <div class="profileimage">
+                                    <img src="{% static 'assets/michael-dam-mEZ3PoFGs_k-unsplash.jpg' %}" alt="">
+                                </div>
+                                <span class="username">John Doe</span>
+                            </div>
+                            <div class="profilebuttons">
+                                <img src="{% static 'assets/bookmark-plus.svg' %}" class="firstbutton" alt="">
+                                <img src="{% static 'assets/Path 3.svg' %}" alt="">
+                            </div>
+                        </div>
+                        <img src="{{ post.image.url }}" class="imagebox" alt="">
+                    </div>
+                    <div class="contentside">
+                        <div class="blogtitle">
+                            <a href="{% url 'blog:post-detail' post.slug %}">{{ post.title }}</a>
+                        </div>
+                        <div class="blogcontent">
+                            {{ post.content|truncatechars_html:120|safe}}
+                        </div>
+                        <div class="blogfooter">
+                        
+                                <div>
+                                    <span>{{ post.date_posted|date:"M j"}}</span><span class="dot"></span><span>{{ post.content|readtime }}</span>
+                                </div>
+                                <div class="numberofviews">
+                                    <img src="{% static 'assets/eye.svg' %}" alt="">
+                                    <span>423</span>
+                                </div>
+                                <div class="numberoflikes">
+                                    <img src="{% static 'assets/icons/Icon ionic-ios-thumbs-up.svg' %}" alt="">
+                                    <span>424</span>
+                                </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+         
+        </div>
+        <div class="col-3 sidecontent">
+            <div class="tofollow">
+                <span>Blogers for you</span>
+                <div class="blogers">
+                    <div class="onebloger">
+                        <div class="blogerleft">
+                            <div class="blogerimg">
+                                <img src="{% static 'assets/michael-dam-mEZ3PoFGs_k-unsplash.jpg' %}" alt="">
+                            </div>
+                            <div class="blogerprofile">
+                                <div class="username">
+                                    Alfred John
+                                </div>
+                                <div class="profession">
+                                    Noble writer
+                                </div>
+                            </div>
+                        </div>
+                        <button>
+                            Follow
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="categories">
+                <span>Recommended categories</span>
+                <div class="categorycontainer">
+                    <button>
+                        Science
+                    </button>
+                </div>
+            </div>
+            <div class="footer">
+                    <div class="upperfooter">
+                        <ul>
+                            <li><a href="#">About</a></li>
+                            <li><a href="#">Blogs</a></li>
+                            <li><a href="#">Jobs</a></li>
+                            <li><a href="#">Help</a></li>
+                            <li><a href="#">Terms</a></li>
+    
+                        </ul>
+                    </div>
+                    <div class="dropdown lowerfooter">
+                        <button class="dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                          Language
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                          <li><button class="dropdown-item" type="button">አማርኛ</button></li>
+                          <li><button class="dropdown-item" type="button">English</button></li>
+                        </ul>
+                      </div>
+     
 
-		<!-- begin post -->
-		{% for post in featured_posts %}
-		<div class="card">
-			<div class="row">
-				<div class="col-md-5 wrapthumbnail">
-					<a href="{% url 'blog:post-detail' post.slug %}">
-						<div class="thumbnail" style="background-image:url('{{ post.image.url }}');"></div>
-					</a>
-				</div>
-				<div class="col-md-7">
-					<div class="card-block">
-						<h2 class="card-title"><a href="{% url 'blog:post-detail' post.slug %}">{{ post.title }}</a></h2>
-						<h4 class="card-text">{{ post.content|truncatechars_html:120|safe }}</h4>
-						<div class="metafooter">
-							<div class="wrapfooter">
-								<span class="meta-footer-thumb">
-								<a href="{% url 'accounts:profile' post.author.display_name %}"><img class="author-thumb" src="{{ post.author.profile.avator.url }}" alt="{{ post.author.display_name }}"></a>
-								</span>
-								<span class="author-meta">
-								<span class="post-name">
-								<a href="{% url 'accounts:profile' post.author.display_name %}">{{ post.author.get_display_name }}</a>
-								</span><br/>
-								<span class="post-date">{{post.date_posted|date:"F d, Y" }}</span><span class="dot"></span><span class="post-read">{{ post.content|readtime }}</span>
-								</span>
-								<span class="post-read-more">
-									{% csrf_token %}
-									<button class="bookmark-icon" style="all: unset;cursor: pointer; color:rgba(0,0,0,.44);" value="{{ post.pk }}">
-									{% if post in saved_posts %}
-										<i class="fas fa-bookmark fa-lg"></i>
-									{% else %}
-										<i class="far fa-bookmark fa-lg"></i>
-									{% endif %}
-									</button>
-								</span>
-							</div>
-						</div>
-					</div> 
-				</div>
-			</div>
-		</div>
-		{% endfor %}
-		<!-- end post -->
+            </div>
+        </div>
+        <div class="col-1"></div>
+    </div>
+</section>
 
-	</div>
-	</section>
-	<!-- End Featured
-	================================================== -->
-
-	<!-- Begin List Posts
-	================================================== -->
-	<section class="recent-posts">
-	<div class="section-title">
-		<h2><span>All Stories</span></h2>
-	</div>
-	<div class="card-columns listrecent letstry">
-
-		<!-- begin post -->
-		{% for post in all_posts %}
-		<div class="card">
-			<a href="#">
-				<img class="img-fluid" src="{{ post.image.url }}" alt="{{ post.title }}">
-			</a>
-			<div class="card-block">
-				<h2 class="card-title"><a href="#">{{ post.title }}</a></h2>
-				<h4 class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</h4>
-				<div class="metafooter">
-					<div class="wrapfooter">
-						<span class="meta-footer-thumb">
-						<a href="#"><img class="author-thumb" src="{{ post.author.profile.avator.url }}" alt="{{ post.author.display_name }}"></a>
-						</span>
-						<span class="author-meta">
-						<span class="post-name"><a href="#">{{ post.author.display_name }}</a></span><br/>
-						<span class="post-date">{{post.date_posted|date:"F d, Y" }}</span><span class="dot"></span><span class="post-read">{{ post.content|readtime }}</span>
-						</span>
-						<span class="post-read-more"><a href="#" title="Read Story"><svg class="svgIcon-use" width="25" height="25" viewbox="0 0 25 25"><path d="M19 6c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v14.66h.012c.01.103.045.204.12.285a.5.5 0 0 0 .706.03L12.5 16.85l5.662 4.126a.508.508 0 0 0 .708-.03.5.5 0 0 0 .118-.285H19V6zm-6.838 9.97L7 19.636V6c0-.55.45-1 1-1h9c.55 0 1 .45 1 1v13.637l-5.162-3.668a.49.49 0 0 0-.676 0z" fill-rule="evenodd"></path></svg></a></span>
-					</div>
-				</div>
-			</div>
-		</div>
-		{% endfor %}
-		<!-- end post -->
-
-	</div>
-	</section>
-	<!-- End List Posts
-	================================================== -->
-
-</div>
-<!-- /.container -->
-{% include "footer.html" %}
-
-{% block page_js %}
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-	<script>
-		setTimeout(function(){
-		if ($('#msg').length > 0) {
-			$('#msg').remove();
-		}
-		}, 5000)
-	</script>
-	<script src="{% static 'blog/scripts/main.js' %}"></script>
-{% endblock %}
-
+<script>
+    
+    /* When the user  clicks on the button,
+    toggle between hiding and showing the dropdown content */
+    function myFunction() {
+    document.getElementById("myDropdown").classList.toggle("show");
+    }
+    // Close the dropdown menu if the user clicks outside of it
+    window.onclick = function(event) {
+    if (!event.target.matches('.dropbtn')) {
+        // alert('you cllicked ot.');
+        console.log('still good')
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
+            }
+        }
+    }
+    }
+</script>
 {% endblock %}

@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+{% load static %}
+{% load post_read_time %}
+
+{% block page_css %}
+    <link rel="stylesheet" href="{% static 'styles/auth-user-landing-page.css' %}"/>
+{% endblock %}
+{% block title %} Tomar {% endblock %}
+
+{% block main %}
+
+{% include "navbar.html" %}   
+
+<section class="container screen">
+    <div class="row pt-4">
+        <div class="col-1"></div>
+        <div class="col-7 maincontent">
+            <div class="following">
+                <div class="onefollowing">
+
+                </div>
+            </div>
+            {% if saved_posts %}
+            <div class="bloglists">
+                {% for post in saved_posts %}
+                <div class="oneblog">
+                    <div class="imageside">
+                        <div class="profilebox">
+                            <div class="profile">
+                                <div class="profileimage">
+                                    <img src="{% static 'assets/michael-dam-mEZ3PoFGs_k-unsplash.jpg' %}" alt="">
+                                </div>
+                                <span class="username">John Doe</span>
+                            </div>
+                            <div class="profilebuttons">
+                                <img src="{% static 'assets/bookmark-plus.svg' %}" class="firstbutton" alt="">
+                                <img src="{% static 'assets/Path 3.svg' %}" alt="">
+                            </div>
+                        </div>
+                        <img src="{{ post.image.url }}" class="imagebox" alt="">
+                    </div>
+                    <div class="contentside">
+                        <div class="blogtitle">
+                            <a href="{% url 'blog:post-detail' post.slug %}">{{ post.title }}</a>
+                        </div>
+                        <div class="blogcontent">
+                            {{ post.content|truncatechars_html:120|safe}}
+                        </div>
+                        <div class="blogfooter">
+                        
+                                <div>
+                                    <span>{{ post.date_posted|date:"M j"}}</span><span class="dot"></span><span>{{ post.content|readtime }}</span>
+                                </div>
+                                <div class="numberofviews">
+                                    <img src="{% static 'assets/eye.svg' %}" alt="">
+                                    <span>423</span>
+                                </div>
+                                <div class="numberoflikes">
+                                    <img src="{% static 'assets/icons/Icon ionic-ios-thumbs-up.svg' %}" alt="">
+                                    <span>424</span>
+                                </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+                <p class="alert alert-info">You have not saved any post yet. Click the bookmark icon to save posts for later reading</p>
+            {% endif %}
+        </div>
+        <div class="col-3 sidecontent">
+            <div class="tofollow">
+                <span>Blogers for you</span>
+                <div class="blogers">
+                    <div class="onebloger">
+                        <div class="blogerleft">
+                            <div class="blogerimg">
+                                <img src="{% static 'assets/michael-dam-mEZ3PoFGs_k-unsplash.jpg' %}" alt="">
+                            </div>
+                            <div class="blogerprofile">
+                                <div class="username">
+                                    Alfred John
+                                </div>
+                                <div class="profession">
+                                    Noble writer
+                                </div>
+                            </div>
+                        </div>
+                        <button>
+                            Follow
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="categories">
+                <span>Recommended categories</span>
+                <div class="categorycontainer">
+                    <button>
+                        Science
+                    </button>
+                </div>
+            </div>
+            <div class="footer">
+                    <div class="upperfooter">
+                        <ul>
+                            <li><a href="#">About</a></li>
+                            <li><a href="#">Blogs</a></li>
+                            <li><a href="#">Jobs</a></li>
+                            <li><a href="#">Help</a></li>
+                            <li><a href="#">Terms</a></li>
+    
+                        </ul>
+                    </div>
+                    <div class="dropdown lowerfooter">
+                        <button class="dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                          Language
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                          <li><button class="dropdown-item" type="button">አማርኛ</button></li>
+                          <li><button class="dropdown-item" type="button">English</button></li>
+                        </ul>
+                      </div>
+     
+
+            </div>
+        </div>
+        <div class="col-1"></div>
+    </div>
+</section>
+
+<script>
+    
+    /* When the user  clicks on the button,
+    toggle between hiding and showing the dropdown content */
+    function myFunction() {
+    document.getElementById("myDropdown").classList.toggle("show");
+    }
+    // Close the dropdown menu if the user clicks outside of it
+    window.onclick = function(event) {
+    if (!event.target.matches('.dropbtn')) {
+        // alert('you cllicked ot.');
+        console.log('still good')
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
+            }
+        }
+    }
+    }
+</script>
+{% endblock %}

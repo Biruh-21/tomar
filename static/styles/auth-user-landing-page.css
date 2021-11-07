@@ -1,0 +1,547 @@
+nav{
+    box-shadow: 0px 3px 6px #E8E8E8;
+    height: 70px;
+    position: fixed;
+    background: white;
+    
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    transition: all 300ms ease-in-out;
+}
+/* .scroll-down nav{
+    transform: translate3d(0, -100%, 0);
+}
+.scroll-up nav{
+    box-shadow: 0 3px 10px rgba(100, 100, 100, 0.);
+} */
+.searchboxcontainer{
+    border:0;
+    background: #f6f6f6;
+    width: 310px;
+    height: 45px;
+    border-radius:26px;
+    padding: 9px 15px;
+
+}
+.searchbox{
+    border: none;
+    background: none;
+    outline: none;
+}
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+  -webkit-appearance:none;
+}
+.searchbtn{
+    padding: 0;
+    border: none;
+    background: none;
+    float: right;
+}
+.searchbtn img{
+    width: 20px;
+    height: 20px;
+}
+.ulflex{
+    display: flex;
+    justify-content: space-between;
+    width: 650px;
+    padding-top: 5px;
+}
+.ulflexinner{
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
+    width: 190px;
+    height: 45px;
+    background: #f6f6f6;
+    border-radius: 26px;
+}
+.ulflexinner li{
+    list-style-type: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* border: 1px solid black; */
+    position: relative;
+}
+.ulflexinner li::after{
+    position: absolute;
+    top: 1px;
+    right: -1px;
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #00B9FF;
+    /* display: none; */
+}
+
+.ulflexinner li:hover{
+    background: #E3E3E3;
+}
+.ulflexinner li a .icon1{
+    width: 30px;
+    height: 30px;
+}
+.ulflexinner li a .icon2{
+    width: 24.1px;
+    height: 29.45px;
+}
+.ulflexinner li a .icon3{
+    width: 30px;
+    height: 30px;
+}
+.addarticlebtn{
+    width: 50px;
+    height: 50px;
+    background: #f6f6f6;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -2px;
+}
+.addarticlebtn:hover{
+    background: #E3E3E3;
+}
+.addarticlebtn img{
+    width: 17px;
+    height: 17px;
+}
+.profileimg{
+    width: 45px;
+    height: 45px;
+    border-radius: 50px;
+    cursor: pointer;
+}
+/* Dropdown Button */
+
+
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: -60px;
+  background-color: white;
+  min-width: 160px;
+  border-radius: 10px;
+  margin-top: 20px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 7px 5px 7px 25px;
+  text-decoration: none;
+  display: block;
+  /* border: 1px solid black; */
+}
+
+.dropdown-content a img{
+    width: 24px;
+    height: 24px;
+}
+.dropdown-content a:last-child{
+    border-top: 2px solid #F4F4F4;
+    padding: 10px;
+    text-align: center;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #F6F6F6}
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show {display:block;}
+  .dropdown-content::before{
+      position: absolute;
+      content: '';
+      height: 14px;
+      width: 14px;
+      background: white;
+      z-index: -1;
+      top: -7px;
+      left: 70px;
+      transform: rotate(45deg);
+  }
+/* Profile section */
+.mama{
+    margin-top: 100px;
+ }
+
+.profilesection{
+    display: flex;
+    flex-direction: row;
+    margin-top: 40px;
+    width: 650px;
+}
+.myprofileimg{
+    width: 198px;
+    height: 198px;
+    border: 1px solid #838383;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    margin-right: 30px;
+}
+.myprofileimg img{
+    position: absolute;
+    top: 0;
+    left: 0;
+    max-width: 100%;
+    height: fit-content;
+}
+.profiledescription{
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    /* border: 1px solid grey; */
+}
+
+.first{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+    align-content: center;
+}
+.title .username{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+    font-size: 24px;
+
+}
+.first .editbtn{
+    background: #F6F6F6;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    margin-left: 150px;
+}
+.first .editbtn:hover{
+    background: #E3E3E3;
+}
+.editbtn a{
+    width: 40px;
+    height: 40px;
+    align-self: center;
+    /* border: 1px solid black;s */
+}
+.second{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+}
+.second div{
+    margin-right: 50px;
+}
+.second div span{
+    font-weight: bold;
+}
+.third{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+.fourth{
+    margin-bottom: 5px;
+}
+.fiveth{
+    color: #0077EE;
+    font-weight: 600;
+    font-size: 0.8em;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+ 
+/* user post list section */
+.bloglists{
+    display: flex;
+    flex-direction: column;
+}
+.screen{
+    margin-top: 100px;
+}
+.maincontent{
+    padding: 10px;
+    
+}
+.oneblog{
+    width: 675px;
+    height: 255px;
+    border-radius: 19px;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: row;
+}
+.imageside{
+    width:261px;
+    height:232px;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+
+}
+.profilebox{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 62px;
+    background: rgba(0, 153, 255, .1);
+    z-index: 1;
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 10px;
+    align-items: center;
+}
+.profile{
+    display: flex;
+    flex-direction: row;
+    width: 200px;
+}
+.profileimage{
+    width: 41px;
+    height: 41px;
+    border: 2px solid white;
+    border-radius: 50%;
+    margin-right: 10px;
+    overflow: hidden;
+    position: relative;
+
+}
+.profileimage img{
+    width: 100%;
+    height: fit-content;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.username{
+    align-self: center;
+    color: #212529;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+    font-size: 19px;
+}
+.profilebuttons{
+    width: 80px;
+    display: flex;
+    justify-content: space-between;
+}
+.profilebuttons img{
+    cursor: pointer;
+}
+.imagebox{
+    position: absolute;
+    height: 100%;
+    min-width: 100%;
+    
+}
+.contentside{
+    padding: 5px 15px;
+    width: 390px;
+    position: relative;
+    
+}
+.blogtitle{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 22px;
+    font-weight: bold;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.blogtitle a {
+    text-decoration: none;
+    color: #212529;
+}
+.blogtitle a:hover {
+    color: #3f4b58;
+}
+.blogcontent{
+    font-family:Verdana, Geneva, Tahoma, sans-serif
+}
+.blogfooter{
+    display: flex;
+    flex-direction: row;
+    margin-right: 10px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    margin: 5px 15px;
+
+}
+.blogfooter > *{
+    margin-right: 15px;
+}
+.blogfooter .numberoflikes img{
+    margin-top: -3px;
+}
+/* side content */
+.sidecontent{
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    /* top: 0; */
+    /* right: 0; */
+}
+.tofollow{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+.tofollow span{
+    font-size: 20px;
+    color: #5F5F5F;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+.blogers{
+    display: flex;
+    flex-direction: column;
+}
+.onebloger{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 255px;
+    
+}
+.blogerleft{
+    display: flex;
+    flex-direction: row;
+}
+.blogerimg{
+    position: relative;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.blogerimg img{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: fit-content;
+}
+.blogerprofile{
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+}
+.blogerprofile .username{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    color: black;
+}
+.blogerprofile .profession{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 12px;
+}
+.onebloger button{
+    
+    all: unset;
+    width: 70px;
+    height: 28px;
+    border-radius: 4px;
+    border: 2px solid #707070;
+    font-size: 12px;
+    cursor: pointer;
+    text-align: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+}
+.categories{
+    display: flex;
+    flex-direction: column;
+}
+.categories span{
+    font-size: 20px;
+    color: #5F5F5F;
+    font-weight: 500;
+    margin-bottom: 15px;
+}
+.categories .categorycontainer{
+    display: flex;
+    flex-flow: row wrap;
+}
+.categorycontainer button{
+    all: unset;
+    margin: 5px;
+    background: #F6F6F6;
+    border-radius: 13px;
+    height: 25px;
+    width: fit-content;
+    padding: 0 10px;
+    text-align: center;
+}
+/* footer */
+.footer{
+    display: flex;
+    flex-direction: column;
+}
+.upperfooter{
+    display: inline-block;
+    margin-top: 50px;
+}
+.upperfooter>ul{
+    display: inline-block;
+    padding: 0;
+}
+.upperfooter ul li{
+    display: inline;
+    margin-right: 20px;
+}
+.upperfooter ul li a{
+    text-decoration: none;
+    color: #5F5F5F;
+
+}
+.lowerfooter{
+    padding: 0;
+    margin-bottom: 60px;
+    color: #5F5F5F;
+}
+.lowerfooter ul{
+    min-width: fit-content;
+    padding: 0 5px;
+    
+}
+.lowerfooter li{
+    width: fit-content;
+    color: #5F5F5F;
+}
+.lowerfooter button{
+    all: unset;
+}
+.dot:after {
+	content:"·";
+	margin-left:3px;
+	margin-right:3px;
+}
